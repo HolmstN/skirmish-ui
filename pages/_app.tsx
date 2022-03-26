@@ -1,8 +1,21 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <div className="h-screen bg-white dark:bg-slate-900">
+      <Head>
+        <title>Skirmish.io</title>
+        <meta name="description" content="gaming community tournament app" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="py-12 px-12">
+        <h1 className="dark:text-white font-bold text-2xl">Skirmish.IO</h1>
+      </div>
+      <Component {...pageProps} />
+    </div>
+  );
 }
 
-export default MyApp
+export default MyApp;
