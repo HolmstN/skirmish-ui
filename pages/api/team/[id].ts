@@ -1,14 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-
-type CreateTeamParams = {
-  name: string;
-  players: string[];
-};
+import { Player } from "../../../types/teams";
 
 type ApiResponse = {
   id: string | string[];
   name: string;
-  players: string[];
+  players: Player[];
 };
 
 export default function handler(
@@ -17,7 +13,22 @@ export default function handler(
 ) {
   const { id } = req.query;
   // fetch from mongo by Id
-  return res
-    .status(200)
-    .json({ id, name: "something", players: ["1", "2", "3", "4", "5"] });
+  return res.status(200).json({
+    id,
+    name: "A Team Name",
+    players: new Array(5).fill(makePlayer()),
+  });
 }
+
+// mock data for now
+const makePlayer = (): Player => {
+  return {
+    name: (Math.random() + 1).toString(36).substring(7),
+    roles: {
+      top: {
+        champions: [(Math.random() + 1).toString(36).substring(7)],
+        preference: 1,
+      },
+    },
+  };
+};

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import Layout from "../../../components/layout";
 import { useTeam } from "../../../helpers/use-team";
+import { Player } from "../../../types/teams";
 
 export const Dashboard = () => {
   const router = useRouter();
@@ -20,9 +21,22 @@ export const Dashboard = () => {
       <div>{team.name}</div>
 
       {team.players.map((p) => (
-        <div>{p}</div>
+        <PlayerView player={p} />
       ))}
     </Layout>
+  );
+};
+
+const PlayerView: React.FC<{ player: Player }> = ({ player }) => {
+  const orderedRoles = Object.entries(player.roles).sort(
+    (pra, prb) => pra[1].preference - prb[1].preference
+  );
+
+  return (
+    <div className="py-1">
+      <div>Player: {player.name}</div>
+      <div>Role: {orderedRoles[0][0]}</div>
+    </div>
   );
 };
 
