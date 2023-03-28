@@ -1,5 +1,7 @@
+import Layout from "../components/layout";
+
 export const FindTeam = () => {
-  return <div className="dark:text-white">Find Team Page</div>;
+  return <Layout header="Find Team Page"></Layout>;
 };
 
 export default FindTeam;
