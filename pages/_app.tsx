@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { DndContext, DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -13,7 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className="py-12 px-12">
         <h1 className="dark:text-white font-bold text-2xl">Skirmish.IO</h1>
       </div>
-      <Component {...pageProps} />
+      <DndProvider backend={HTML5Backend}>
+        <Component {...pageProps} />
+      </DndProvider>
     </div>
   );
 }

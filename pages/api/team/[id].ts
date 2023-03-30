@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Player } from "../../../types/teams";
+import { Player, PlayerUi, Role } from "../../../types/teams";
 
 type ApiResponse = {
-  id: string | string[];
+  id?: string | string[];
   name: string;
   players: Player[];
 };
@@ -21,14 +21,51 @@ export default function handler(
 }
 
 // mock data for now
-const makePlayer = (): Player => {
-  return {
-    name: (Math.random() + 1).toString(36).substring(7),
+const makePlayer = (): PlayerUi => {
+  const p: Player = {
+    name: "test",
     roles: {
       top: {
-        champions: [(Math.random() + 1).toString(36).substring(7)],
+        champions: ["Teemo", "Darius", "Blitzcrank", "Ornn"],
         preference: 1,
       },
+      jg: {
+        champions: ["Shaco"],
+        preference: 2,
+      },
+      mid: {
+        champions: ["Aurelion Sol"],
+        preference: 3,
+      },
+      adc: {
+        champions: ["Nilah"],
+        preference: 4,
+      },
+      sup: {
+        champions: ["Nautilus"],
+        preference: 5,
+      },
     },
+  };
+
+  const orderedRoles = Object.entries(p.roles).sort(
+    (pra, prb) => pra[1].preference - prb[1].preference
+  );
+
+  const roles = Object.fromEntries(
+    orderedRoles.map((or) => {
+      const champDetails = or[1].champions.map((c, i) => ({
+        name: c,
+        preference: i,
+      }));
+
+      return [or[0], { champions: champDetails, preference: or[1].preference }];
+    })
+  );
+
+  return {
+    ...p,
+    roles,
+    preferredRole: orderedRoles[0][0] as Role,
   };
 };
