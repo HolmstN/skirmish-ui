@@ -26,7 +26,11 @@ export const Dashboard = () => {
           <div>{team.name}</div>
 
           {team.players.map((p, i) => (
-            <PlayerView onClick={() => setSelectedPlayerIndex(i)} player={p} />
+            <PlayerView
+              key={p.name}
+              onClick={() => setSelectedPlayerIndex(i)}
+              player={p}
+            />
           ))}
         </div>
 

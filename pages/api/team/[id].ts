@@ -4,7 +4,7 @@ import { Player, PlayerUi, Role } from "../../../types/teams";
 type ApiResponse = {
   id?: string | string[];
   name: string;
-  players: Player[];
+  players: PlayerUi[];
 };
 
 export default function handler(
@@ -16,14 +16,14 @@ export default function handler(
   return res.status(200).json({
     id,
     name: "A Team Name",
-    players: new Array(5).fill(makePlayer()),
+    players: new Array(5).fill({}).map((_, i) => makePlayer(`test-${i}`)),
   });
 }
 
 // mock data for now
-const makePlayer = (): PlayerUi => {
+const makePlayer = (name: string): PlayerUi => {
   const p: Player = {
-    name: "test",
+    name,
     roles: {
       top: {
         champions: ["Teemo", "Darius", "Blitzcrank", "Ornn"],

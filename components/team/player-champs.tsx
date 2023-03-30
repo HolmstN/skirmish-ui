@@ -72,19 +72,9 @@ const Champs: React.FC<ChampsProps> = ({ champions }) => {
         return co;
       }
 
-      const newCo = [...co].filter((c) => c.name !== champ);
+      const newCo = co.filter((c) => c.name !== champ);
 
-      // new index is lower preference, so move items up
-      if (champIndex >= to) {
-        newCo.reverse().splice(to, 0, { name: champ, preference: 0 }).reverse();
-      }
-
-      // new index is higher preference, so move items down
-      else {
-        newCo.splice(to, 0, { name: champ, preference: 0 });
-      }
-
-      // set new preferences based on index
+      newCo.splice(to, 0, { name: champ, preference: 0 });
       return newCo.map((c, i) => ({ ...c, preference: i }));
     });
   };
@@ -116,16 +106,19 @@ const Champ: React.FC<ChampProps> = ({ champion, reorder }) => {
     [champion]
   );
 
-  const [{ canDrop, isOver }, drop] = useDrop(() => ({
-    accept: CHAMPION,
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
+  const [{ canDrop, isOver }, drop] = useDrop(
+    () => ({
+      accept: CHAMPION,
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop(),
+      }),
+      drop: (item) => {
+        reorder(item.name, champion.preference);
+      },
     }),
-    drop: (item) => {
-      reorder(item.name, champion.preference);
-    },
-  }));
+    [champion.preference]
+  );
 
   const opacity = isDragging ? "opacity-50" : "opacity-100";
   return (
