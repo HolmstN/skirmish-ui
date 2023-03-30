@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { Champion, PlayerUi, Role } from "../../types/teams";
+import { Tab } from "../tab";
 
 type Props = {
   player: PlayerUi;
@@ -64,23 +65,6 @@ export const PlayerChamps: React.FC<Props> = ({ player }) => {
           champions={player.roles[focusedTab]?.champions || []}
         />
       )}
-    </div>
-  );
-};
-
-type TabProps = {
-  onClick: () => void;
-  selected: boolean;
-  icon?: typeof StarIcon;
-};
-const Tab: React.FC<TabProps> = ({ children, onClick, selected }) => {
-  let className = "flex-auto border rounded-md py-2 pl-2 m-2 cursor-pointer";
-  if (selected) {
-    className += " bg-slate-500";
-  }
-  return (
-    <div onClick={onClick} className={className}>
-      {children}
     </div>
   );
 };

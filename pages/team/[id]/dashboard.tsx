@@ -12,7 +12,7 @@ export const Dashboard = () => {
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerUi>();
 
   if (isLoading) {
-    return <Layout header="">Is Loading...</Layout>;
+    return <Layout>Is Loading...</Layout>;
   }
 
   if (isError || !team) {
@@ -20,26 +20,24 @@ export const Dashboard = () => {
   }
 
   return (
-    <Layout header="">
+    <Layout>
       <div>
         <div className="text-center">
           <h1>{team.name}</h1>
         </div>
-        <div className="flex">
-          <div className="flex-initial w-1/12 mr-8 border-r-2">
-            {team.players.map((p) => (
-              <PlayerView
-                key={p.name}
-                onClick={() => setSelectedPlayer(p)}
-                selected={selectedPlayer?.name === p.name}
-                player={p}
-              />
-            ))}
-          </div>
+        <div className="flex flex-col md:flex-row justify-center pt-12">
+          {team.players.map((p) => (
+            <PlayerView
+              key={p.name}
+              onClick={() => setSelectedPlayer(p)}
+              selected={selectedPlayer?.name === p.name}
+              player={p}
+            />
+          ))}
+        </div>
 
-          <div className="flex-1">
-            {selectedPlayer && <PlayerChamps player={selectedPlayer} />}
-          </div>
+        <div className="border-t border-slate-700 mt-4 pt-2">
+          {selectedPlayer && <PlayerChamps player={selectedPlayer} />}
         </div>
       </div>
     </Layout>
@@ -57,15 +55,19 @@ const PlayerView: React.FC<PlayerViewProps> = ({
   onClick,
 }) => {
   const className = classNames(
-    "px-4 py-2 border-b hover:bg-slate-600 cursor-pointer",
+    "border rounded-lg hover:bg-slate-600 cursor-pointer px-12 mx-8",
     {
       "bg-slate-600": selected,
     }
   );
   return (
     <div className={className} onClick={onClick}>
-      <div className="font-bold">{player.name}</div>
-      <div>Role: {player.preferredRole}</div>
+      <img
+        src="https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon5597.jpg?image=q_auto,f_webp,w_auto&v=1680060873716"
+        className="rounded-full object-contain h-16 w-16 mt-4"
+      />
+      <div className="mt-4 font-bold">{player.name}</div>
+      <div className="mb-4">Role: {player.preferredRole}</div>
     </div>
   );
 };

@@ -1,22 +1,17 @@
 import Link from "next/link";
+import { Tab } from "./tab";
 
 export const Landing = () => {
   return (
-    <div className="flex py-12 align-center justify-center items-center mx-auto">
+    <div className="flex py-12 justify-center items-center">
       <Link href="/find-team">
-        <div className="hover:cursor-pointer hover:bg-slate-300 bg-slate-600 mx-12 py-24 w-1/4 rounded">
-          <span className="ml-12">Find Team</span>
-        </div>
+        <Tab className="hover:bg-slate-600 p-24">Find Team</Tab>
       </Link>
       <Link href="/create-team">
-        <div className="hover:cursor-pointer hover:bg-slate-300 bg-slate-600 mx-12 py-24 w-1/4 rounded">
-          <span className="ml-12">Create Team</span>
-        </div>
+        <Tab className="hover:bg-slate-600 p-24">Create Team</Tab>
       </Link>
       <Link href="/stats">
-        <div className="hover:cursor-pointer hover:bg-slate-300 bg-slate-600 mx-12 py-24 w-1/4 rounded">
-          <span className="ml-12">Stats</span>
-        </div>
+        <Tab className="hover:bg-slate-600 p-24">Stats</Tab>
       </Link>
     </div>
   );
