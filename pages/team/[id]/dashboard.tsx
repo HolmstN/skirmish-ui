@@ -27,7 +27,7 @@ export const Dashboard = () => {
         </div>
         <div className="flex flex-col md:flex-row justify-center pt-12">
           {team.players.map((p) => (
-            <PlayerView
+            <PlayerButton
               key={p.name}
               onClick={() => setSelectedPlayer(p)}
               selected={selectedPlayer?.name === p.name}
@@ -44,30 +44,38 @@ export const Dashboard = () => {
   );
 };
 
-type PlayerViewProps = {
+type PlayerButtonProps = {
   player: PlayerUi;
   onClick: () => void;
   selected: boolean;
 };
-const PlayerView: React.FC<PlayerViewProps> = ({
+const PlayerButton: React.FC<PlayerButtonProps> = ({
   player,
   selected,
   onClick,
 }) => {
   const className = classNames(
-    "border rounded-lg hover:bg-slate-600 cursor-pointer px-12 mx-8",
+    "w-1/12 border rounded-lg hover:bg-slate-600 cursor-pointer mx-8",
     {
       "bg-slate-600": selected,
     }
   );
   return (
     <div className={className} onClick={onClick}>
-      <img
-        src="https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon5597.jpg?image=q_auto,f_webp,w_auto&v=1680060873716"
-        className="rounded-full object-contain h-16 w-16 mt-4"
-      />
-      <div className="mt-4 font-bold">{player.name}</div>
-      <div className="mb-4">Role: {player.preferredRole}</div>
+      <div className="mt-2 ml-2 font-bold">{player.name}</div>
+      <div className="flex justify-center">
+        <img
+          src="https://opgg-static.akamaized.net/meta/images/profile_icons/profileIcon5597.jpg?image=q_auto,f_webp,w_auto&v=1680060873716"
+          className="rounded-full object-contain h-16 w-16 mt-4"
+        />
+      </div>
+      <div className="flex mt-2 ml-1 items-center">
+        <img
+          src={`/ranked-positions/${player.preferredRole}.png`}
+          className="saturate-50 brightness-150 contrast-150 mr-1 w-8 h-8"
+        />
+        <div>{player.preferredRole}</div>
+      </div>
     </div>
   );
 };
