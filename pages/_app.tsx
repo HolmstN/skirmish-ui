@@ -6,14 +6,14 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="h-screen bg-white dark:bg-slate-900">
+    <div className="h-screen bg-white dark:bg-slate-900 dark:text-slate-100">
       <Head>
         <title>Skirmish.io</title>
         <meta name="description" content="gaming community tournament app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="py-12 px-12">
-        <h1 className="dark:text-white font-bold text-2xl">Skirmish.IO</h1>
+        <h1>Skirmish.IO</h1>
       </div>
       <DndProvider backend={HTML5Backend}>
         <Component {...pageProps} />

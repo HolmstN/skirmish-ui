@@ -5,8 +5,8 @@ type Props = {
 };
 export const Layout: React.FC<Props> = ({ header, children }) => {
   return (
-    <div className="dark:text-white px-32">
-      <h1 className="font-bold">{header}</h1>
+    <div className="px-32">
+      <h1>{header}</h1>
       {children}
     </div>
   );
