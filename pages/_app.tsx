@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import Layout from "../components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -12,11 +13,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="description" content="gaming community tournament app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="py-12 px-12">
-        <h1>Skirmish.IO</h1>
-      </div>
       <DndProvider backend={HTML5Backend}>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </DndProvider>
     </div>
   );

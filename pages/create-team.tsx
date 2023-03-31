@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "../components/layout";
 
 type Team = {
   name: string;
@@ -40,7 +39,7 @@ export const CreateTeam = () => {
     });
   };
   return (
-    <Layout header="Create Team">
+    <>
       <div>
         <label>
           Team Name
@@ -92,7 +91,7 @@ export const CreateTeam = () => {
           ))}
         </div>
       )}
-    </Layout>
+    </>
   );
 };
 

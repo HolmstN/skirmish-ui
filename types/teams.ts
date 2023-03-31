@@ -23,3 +23,8 @@ export type PlayerUi = {
   };
   preferredRole: Role;
 };
+
+export type Tag = {
+  id: string;
+  metadata: Record<string, any>;
+};

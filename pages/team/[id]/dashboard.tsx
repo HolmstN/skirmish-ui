@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Layout from "../../../components/layout";
 import { PlayerChamps } from "../../../components/team/player-champs";
 import { useTeam } from "../../../helpers/use-team";
 import { PlayerUi } from "../../../types/teams";
@@ -12,15 +11,15 @@ export const Dashboard = () => {
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerUi>();
 
   if (isLoading) {
-    return <Layout>Is Loading...</Layout>;
+    return <div>Is Loading...</div>;
   }
 
   if (isError || !team) {
-    return <Layout header="Dashboard">Error</Layout>;
+    return <div>Error</div>;
   }
 
   return (
-    <Layout>
+    <>
       <div>
         <div className="text-center">
           <h1>{team.name}</h1>
@@ -40,7 +39,7 @@ export const Dashboard = () => {
           {selectedPlayer && <PlayerChamps player={selectedPlayer} />}
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

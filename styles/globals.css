@@ -17,4 +17,8 @@
  div {
   @apply border-slate-500
  }
+
+ a {
+  @apply text-slate-300 hover:text-slate-200
+ }
 }
