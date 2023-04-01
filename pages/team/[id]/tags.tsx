@@ -7,7 +7,7 @@ import { useState } from "react";
 export const Tags = () => {
   const router = useRouter();
   const { tags, teamName, isLoading, isError } = useTags(router.query.id);
-  const [editMode, setEditMode] = useState<boolean>()
+  const [editMode, setEditMode] = useState<boolean>();
 
   const addTag = () => {
     // TODO
@@ -40,15 +40,13 @@ export const Tags = () => {
           ))}
         </div>
         <div>
-          {!editMode &&
+          {!editMode && (
             <Button className="mb-2" onClick={() => setEditMode(true)}>
               Edit
             </Button>
-            }
+          )}
         </div>
       </div>
-
-
     </div>
   );
 };
