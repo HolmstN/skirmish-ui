@@ -6,7 +6,7 @@ type Props = {
 };
 export const Button: React.FC<Props> = ({ onClick, children, className }) => {
   const classes = classnames(
-    `${className} p-2 bg-sky-800 rounded-md hover:bg-sky-600`
+    `${className} p-2 bg-sky-800 rounded-md hover:bg-sky-600 min-w-[150px]`
   );
 
   return (

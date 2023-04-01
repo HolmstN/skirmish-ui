@@ -2,10 +2,12 @@ import { useRouter } from "next/router";
 import Button from "../../../components/button";
 import Tag from "../../../components/tag";
 import { useTags } from "../../../helpers/use-tags";
+import { useState } from "react";
 
 export const Tags = () => {
   const router = useRouter();
   const { tags, teamName, isLoading, isError } = useTags(router.query.id);
+  const [editMode, setEditMode] = useState<boolean>()
 
   const addTag = () => {
     // TODO
@@ -30,12 +32,21 @@ export const Tags = () => {
         </Button>
       </div>
 
-      <div>
-        <h2 className="mb-4">Tags</h2>
-        {tags.map((t) => (
-          <Tag text={t.id} color={t.metadata.color} />
-        ))}
+      <h2 className="mb-4">Tags</h2>
+      <div className="flex">
+        <div className="flex-1">
+          {tags.map((t) => (
+            <Tag text={t.id} color={t.metadata.color} className="w-1/4" />
+          ))}
+        </div>
+        <div>
+          {!editMode && <Button className="mb-2" onClick={() => setEditMode(true)}>
+            Edit
+          </Button>}
+        </div>
       </div>
+
+
     </div>
   );
 };
