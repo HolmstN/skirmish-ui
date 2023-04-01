@@ -40,9 +40,11 @@ export const Tags = () => {
           ))}
         </div>
         <div>
-          {!editMode && <Button className="mb-2" onClick={() => setEditMode(true)}>
-            Edit
-          </Button>}
+          {!editMode &&
+            <Button className="mb-2" onClick={() => setEditMode(true)}>
+              Edit
+            </Button>
+            }
         </div>
       </div>
 
