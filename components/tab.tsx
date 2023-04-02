@@ -2,9 +2,7 @@ type TabProps = {
   className?: string;
   onClick?: () => void;
   selected?: boolean;
-  icon?: React.ForwardRefExoticComponent<
-    React.SVGProps<SVGSVGElement> & { title?: string; titleId?: string }
-  >;
+  icon?: any;
 };
 
 export const Tab: React.FC<TabProps> = ({

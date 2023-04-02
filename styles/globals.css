@@ -4,8 +4,13 @@
 
 @layer base {
   html {
-    @apply bg-white dark:bg-slate-900 dark:text-slate-100;
+    @apply h-full bg-gray-100
   }
+  
+  body {
+    @apply h-full
+  }
+
   h1 {
     @apply text-4xl font-bold;
   }

@@ -3,6 +3,7 @@ import Button from "../../../components/button";
 import Tag from "../../../components/tag";
 import { useTags } from "../../../helpers/use-tags";
 import { useState } from "react";
+import Layout, { LayoutHeader, LayoutMain } from "../../../components/layout";
 
 export const Tags = () => {
   const router = useRouter();
@@ -14,40 +15,54 @@ export const Tags = () => {
   };
 
   if (isLoading) {
-    return <div>Is Loading...</div>;
+    return (
+      <>
+        <LayoutHeader>
+          <h1>Tags - {teamName}</h1>
+        </LayoutHeader>
+        <LayoutMain>Is Loading...</LayoutMain>
+      </>
+    );
   }
 
   if (isError || !tags) {
-    return <div>Error</div>;
+    return (
+      <>
+        <LayoutHeader>
+          <h1>Tags - {teamName}</h1>
+        </LayoutHeader>
+        <LayoutMain>Error</LayoutMain>
+      </>
+    );
   }
 
   return (
-    <div>
-      <div className="text-center">
-        <h1>{teamName}</h1>
-      </div>
-      <div className="flex justify-end border-b">
-        <Button className="mb-2" onClick={addTag}>
-          Add New Tag
-        </Button>
-      </div>
+    <>
+      <LayoutHeader>
+        <h1>Tags - {teamName}</h1>
+      </LayoutHeader>
 
-      <h2 className="mb-4">Tags</h2>
-      <div className="flex">
-        <div className="flex-1">
-          {tags.map((t) => (
-            <Tag text={t.id} color={t.metadata.color} className="w-1/4" />
-          ))}
-        </div>
-        <div>
-          {!editMode && (
-            <Button className="mb-2" onClick={() => setEditMode(true)}>
-              Edit
+      <LayoutMain>
+        <div className="flex items-center">
+          <div className="flex-1">
+            {tags.map((t) => (
+              <Tag text={t.id} color={t.metadata.color} className="mx-1" />
+            ))}
+          </div>
+
+          <div className="flex justify-end gap-2">
+            <Button className="mb-2" onClick={addTag}>
+              Add New Tag
             </Button>
-          )}
+            {!editMode && (
+              <Button className="mb-2" onClick={() => setEditMode(true)}>
+                Edit
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
-    </div>
+      </LayoutMain>
+    </>
   );
 };
 

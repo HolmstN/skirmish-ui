@@ -2,69 +2,63 @@ import { useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { Champion, PlayerUi, Role } from "../../types/teams";
-import { Tab } from "../tab";
+import { TabNav, Tab } from "../tab-nav";
 
 type Props = {
   player: PlayerUi;
 };
+
+type CustomTab = Pick<Tab, "name"> & {
+  key: Role;
+};
 export const PlayerChamps: React.FC<Props> = ({ player }) => {
-  const [focusedTab, setFocusedTab] = useState<Role>(player.preferredRole);
-  const onTabClick = (role: Role) => {
-    setFocusedTab(role);
+  const defaultTabs: CustomTab[] = [
+    { name: "Top", key: "top" },
+    { name: "Jungle", key: "jg" },
+    { name: "Mid", key: "mid" },
+    { name: "ADC", key: "adc" },
+    { name: "Support", key: "sup" },
+  ];
+
+  const initializeTabs = () => {
+    return defaultTabs.map((t) => {
+      if (t.name.toLowerCase() === player.preferredRole.toLowerCase()) {
+        return {
+          ...t,
+          current: true,
+          icon: StarIcon,
+        };
+      }
+
+      return { ...t, current: false };
+    });
   };
+  const [tabs, setTabs] = useState<(Tab & { key: Role })[]>(initializeTabs);
+
+  const onTabClick = (role: string) => {
+    setTabs((oldTabs) =>
+      oldTabs.map((t) => {
+        if (t.key.toLowerCase() === role.toLowerCase()) {
+          return {
+            ...t,
+            current: true,
+          };
+        }
+
+        return { ...t, current: false };
+      })
+    );
+  };
+
+  const current = tabs.find((t) => t.current);
+  const champions = current ? player.roles[current.key]?.champions || [] : [];
 
   return (
     <div>
       <h2>{player.name}</h2>
-      <nav className="w-1/2 flex justify-between">
-        <Tab selected={focusedTab === "top"} onClick={() => onTabClick("top")}>
-          <div className="flex justify-between">
-            <span>Top</span>
-            {"top" === player.preferredRole && (
-              <StarIcon className="h-6 w-6 pr-2" />
-            )}
-          </div>
-        </Tab>
-        <Tab selected={focusedTab === "jg"} onClick={() => onTabClick("jg")}>
-          <div className="flex">
-            <span>Jungle</span>
-            {"jg" === player.preferredRole && (
-              <StarIcon className="h-6 w-6 pr-2" />
-            )}
-          </div>
-        </Tab>
-        <Tab selected={focusedTab === "mid"} onClick={() => onTabClick("mid")}>
-          <div className="flex">
-            <span>Mid</span>
-            {"mid" === player.preferredRole && (
-              <StarIcon className="h-6 w-6 pr-2" />
-            )}
-          </div>
-        </Tab>
-        <Tab selected={focusedTab === "adc"} onClick={() => onTabClick("adc")}>
-          <div className="flex">
-            <span>ADC</span>
-            {"adc" === player.preferredRole && (
-              <StarIcon className="h-6 w-6 pr-2" />
-            )}
-          </div>
-        </Tab>
-        <Tab selected={focusedTab === "sup"} onClick={() => onTabClick("sup")}>
-          <div className="flex">
-            <span>Support</span>
-            {"sup" === player.preferredRole && (
-              <StarIcon className="h-6 w-6 pr-2" />
-            )}
-          </div>
-        </Tab>
-      </nav>
+      <TabNav tabs={tabs} onChange={onTabClick} />
 
-      {player.roles[focusedTab] && (
-        <Champs
-          key={focusedTab}
-          champions={player.roles[focusedTab]?.champions || []}
-        />
-      )}
+      <Champs key={current?.key} champions={champions} />
     </div>
   );
 };
