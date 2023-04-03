@@ -4,7 +4,6 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { MobileHamburger } from "./mobile-hamburger";
 import { ProfileImage } from "./profile-image";
-import Link from "next/link";
 import { Navigation } from "./navigation";
 
 export const Layout: React.FC = ({ children }) => {

@@ -4,8 +4,9 @@ import Head from "next/head";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Layout from "../components/layout";
+import { SessionProvider } from "next-auth/react";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <div>
       <Head>
@@ -13,11 +14,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="description" content="gaming community tournament app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DndProvider backend={HTML5Backend}>
-        <Layout>
+      <SessionProvider session={session}>
+        <DndProvider backend={HTML5Backend}>
           <Component {...pageProps} />
-        </Layout>
-      </DndProvider>
+        </DndProvider>
+      </SessionProvider>
     </div>
   );
 }

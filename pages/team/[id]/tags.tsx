@@ -3,7 +3,7 @@ import Button from "../../../components/button";
 import Tag from "../../../components/tag";
 import { useTags } from "../../../helpers/use-tags";
 import { useState } from "react";
-import { LayoutHeader, LayoutMain } from "../../../components/layout";
+import Layout, { LayoutHeader, LayoutMain } from "../../../components/layout";
 
 export const Tags = () => {
   const router = useRouter();
@@ -16,28 +16,28 @@ export const Tags = () => {
 
   if (isLoading) {
     return (
-      <>
+      <Layout>
         <LayoutHeader>
           <h1>Tags - {teamName}</h1>
         </LayoutHeader>
         <LayoutMain>Is Loading...</LayoutMain>
-      </>
+      </Layout>
     );
   }
 
   if (isError || !tags) {
     return (
-      <>
+      <Layout>
         <LayoutHeader>
           <h1>Tags - {teamName}</h1>
         </LayoutHeader>
         <LayoutMain>Error</LayoutMain>
-      </>
+      </Layout>
     );
   }
 
   return (
-    <>
+    <Layout>
       <LayoutHeader>
         <h1>Tags - {teamName}</h1>
       </LayoutHeader>
@@ -62,7 +62,7 @@ export const Tags = () => {
           </div>
         </div>
       </LayoutMain>
-    </>
+    </Layout>
   );
 };
 

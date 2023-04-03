@@ -4,7 +4,7 @@ import { useState } from "react";
 import { PlayerChamps } from "../../../components/team/player-champs";
 import { useTeam } from "../../../helpers/use-team";
 import { PlayerUi } from "../../../types/teams";
-import { LayoutMain, LayoutHeader } from "../../../components/layout";
+import Layout, { LayoutMain, LayoutHeader } from "../../../components/layout";
 import classnames from "classnames";
 
 export const Dashboard = () => {
@@ -14,9 +14,11 @@ export const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <LayoutHeader>
-        <h1>Dashboard</h1>
-      </LayoutHeader>
+      <Layout>
+        <LayoutHeader>
+          <h1>Dashboard</h1>
+        </LayoutHeader>
+      </Layout>
     );
   }
 
@@ -25,7 +27,7 @@ export const Dashboard = () => {
   }
 
   return (
-    <>
+    <Layout>
       <LayoutHeader>
         <h1>Dashboard - {team.name}</h1>
       </LayoutHeader>
@@ -43,7 +45,7 @@ export const Dashboard = () => {
         </div>
         {selectedPlayer && <PlayerChamps player={selectedPlayer} />}
       </LayoutMain>
-    </>
+    </Layout>
   );
 };
 
