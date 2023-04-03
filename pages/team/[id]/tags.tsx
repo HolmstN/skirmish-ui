@@ -3,7 +3,7 @@ import Button from "../../../components/button";
 import Tag from "../../../components/tag";
 import { useTags } from "../../../helpers/use-tags";
 import { useState } from "react";
-import Layout, { LayoutHeader, LayoutMain } from "../../../components/layout";
+import { LayoutHeader, LayoutMain } from "../../../components/layout";
 
 export const Tags = () => {
   const router = useRouter();

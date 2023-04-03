@@ -13,7 +13,11 @@ export const Dashboard = () => {
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerUi>();
 
   if (isLoading) {
-    return <div>Is Loading...</div>;
+    return (
+      <LayoutHeader>
+        <h1>Dashboard</h1>
+      </LayoutHeader>
+    );
   }
 
   if (isError || !team) {
