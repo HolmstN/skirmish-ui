@@ -5,8 +5,12 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { MobileHamburger } from "./mobile-hamburger";
 import { ProfileImage } from "./profile-image";
 import { Navigation } from "./navigation";
+import { User } from "../types/users";
 
-export const Layout: React.FC = ({ children }) => {
+type Props = {
+  user: User;
+};
+export const Layout: React.FC<Props> = ({ user, children }) => {
   return (
     <>
       <div className="min-h-full">
@@ -23,7 +27,7 @@ export const Layout: React.FC = ({ children }) => {
                         alt="Your Company"
                       />
                     </div>
-                    <Navigation />
+                    <Navigation user={user} />
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
@@ -92,7 +96,7 @@ export const Layout: React.FC = ({ children }) => {
                 </div>
               </div>
 
-              <MobileHamburger userNavigation={userNavigation} />
+              <MobileHamburger user={user} userNavigation={userNavigation} />
             </>
           )}
         </Disclosure>

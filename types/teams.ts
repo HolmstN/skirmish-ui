@@ -1,3 +1,8 @@
+export type Team = {
+  name: string;
+  players: PlayerUi[];
+};
+
 export type Role = "top" | "jg" | "mid" | "adc" | "sup";
 type PlayerRoles = {
   [role in Role]?: {

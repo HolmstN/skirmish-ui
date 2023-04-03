@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { useUser } from "../helpers/use-user";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
+import { User } from "../types/users";
 
 type Nav = {
   name: string;
@@ -12,25 +13,11 @@ type Nav = {
 
 type Props = {
   userNavigation: Nav[];
+  user: User;
 };
-export const MobileHamburger: React.FC<Props> = ({ userNavigation }) => {
-  let navigation = [
-    { name: "Dashboard", href: "", current: false },
-    { name: "Tags", href: "", current: false },
-  ];
-
+export const MobileHamburger: React.FC<Props> = ({ userNavigation, user }) => {
   const router = useRouter();
-  const { user, isLoading, isError } = useUser("luke@jedi.com");
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError || !user) {
-    return <div>Error</div>;
-  }
-
-  navigation = [
+  const navigation = [
     {
       name: "Dashboard",
       href: `/team/${user.team}/dashboard`,

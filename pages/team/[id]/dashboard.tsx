@@ -1,33 +1,23 @@
-import classNames from "classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { PlayerChamps } from "../../../components/team/player-champs";
 import { useTeam } from "../../../helpers/use-team";
-import { PlayerUi } from "../../../types/teams";
+import { PlayerUi, Team } from "../../../types/teams";
 import Layout, { LayoutMain, LayoutHeader } from "../../../components/layout";
 import classnames from "classnames";
+import { GetServerSideProps } from "next";
+import { User } from "../../../types/users";
+import { mockPlayer } from "../../../helpers/mock-player";
 
-export const Dashboard = () => {
-  const router = useRouter();
-  const { team, isLoading, isError } = useTeam(router.query.id);
+type Props = {
+  user: User;
+  team: Team;
+};
+export const Dashboard: React.FC<Props> = ({ user, team }) => {
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerUi>();
 
-  if (isLoading) {
-    return (
-      <Layout>
-        <LayoutHeader>
-          <h1>Dashboard</h1>
-        </LayoutHeader>
-      </Layout>
-    );
-  }
-
-  if (isError || !team) {
-    return <div>Error</div>;
-  }
-
   return (
-    <Layout>
+    <Layout user={user}>
       <LayoutHeader>
         <h1>Dashboard - {team.name}</h1>
       </LayoutHeader>
@@ -87,18 +77,29 @@ const PlayerButton: React.FC<PlayerButtonProps> = ({
   );
 };
 
-/*
-return (
-    <div className={className} onClick={onClick}>
-      <div className="mt-2 ml-2 font-bold">{player.name}</div>
-      <div className="flex justify-center">
-        <img src="" className="rounded-full object-contain h-16 w-16 mt-4" />
-      </div>
-      <div className="flex mt-2 ml-1 items-center">
-        <div>{player.preferredRole}</div>
-      </div>
-    </div>
-  );
-  */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id: teamId } = context.params as { id: string };
+
+  // hard-coding user for now
+  const user: User = {
+    name: "Luke Skywalker",
+    team: parseInt(teamId),
+    teamName: "The Jedi",
+    email: "luke@jedi.com",
+    imageUrl:
+      "https://lumiere-a.akamaihd.net/v1/images/Lightsaber_853fb596.jpeg",
+  };
+
+  const team: Team = {
+    name: "Team ABC",
+    players: new Array(5).fill({}).map((_, i) => mockPlayer(`test-${i}`)),
+  };
+  return {
+    props: {
+      user,
+      team,
+    },
+  };
+};
 
 export default Dashboard;
