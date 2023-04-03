@@ -1,13 +1,12 @@
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { PlayerChamps } from "../../../components/team/player-champs";
-import { useTeam } from "../../../helpers/use-team";
 import { PlayerUi, Team } from "../../../types/teams";
 import Layout, { LayoutMain, LayoutHeader } from "../../../components/layout";
 import classnames from "classnames";
 import { GetServerSideProps } from "next";
 import { User } from "../../../types/users";
 import { mockPlayer } from "../../../helpers/mock-player";
+import { Transition } from "@headlessui/react";
 
 type Props = {
   user: User;
@@ -23,7 +22,7 @@ export const Dashboard: React.FC<Props> = ({ user, team }) => {
       </LayoutHeader>
 
       <LayoutMain>
-        <div className="flex flex-col md:flex-row gap-4 justify-center pt-12">
+        <div className="flex flex-col md:flex-row gap-4 justify-center">
           {team.players.map((p) => (
             <PlayerButton
               key={p.name}
@@ -33,7 +32,18 @@ export const Dashboard: React.FC<Props> = ({ user, team }) => {
             />
           ))}
         </div>
-        {selectedPlayer && <PlayerChamps player={selectedPlayer} />}
+        {team.players.map((p, i) => (
+          <Transition
+            key={p.name}
+            show={selectedPlayer?.name === p.name}
+            enter="ease-in transition-all duration-300"
+            enterFrom="-translate-x-44 opacity-0"
+            enterTo="translate-x-0 opacity-100"
+            leave="opacity-0"
+          >
+            <PlayerChamps player={p} />
+          </Transition>
+        ))}
       </LayoutMain>
     </Layout>
   );

@@ -3,6 +3,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { Champion, PlayerUi, Role } from "../../types/teams";
 import { TabNav, Tab } from "../tab-nav";
+import Card from "../card";
 
 type Props = {
   player: PlayerUi;
@@ -92,7 +93,7 @@ const Champs: React.FC<ChampsProps> = ({ champions }) => {
 
   return (
     <div className="pt-4">
-      <div>Drag to Reorder</div>
+      <div className="text-sm text-gray-500">Drag to Reorder</div>
       {champsOrdered.map((c, i) => (
         <Champ key={c.name} champion={c} reorder={reorder} />
       ))}
@@ -136,16 +137,20 @@ const Champ: React.FC<ChampProps> = ({ champion, reorder }) => {
   );
 
   const opacity = isDragging ? "opacity-50" : "opacity-100";
-  const colorize = isOver && canDrop ? "bg-sky-700" : "";
+  const colorize = isOver && canDrop ? "bg-indigo-700" : "";
+
+  const champImage = `http://ddragon.leagueoflegends.com/cdn/13.6.1/img/champion/${champion.name.replaceAll(
+    /\s/g,
+    ""
+  )}.png`;
+  const ChampImage = <img src={champImage} className="w-12 h-12 rounded" />;
   return (
-    <div ref={drop} className={`flex items-center w-1/2 py-2 ${opacity}`}>
+    <div ref={drop} className={`flex items-center w-1/3 py-2 ${opacity}`}>
       <span className="pr-2 font-bold">{champion.preference + 1}:</span>
-      <div
-        ref={dragRef}
-        role="Handle"
-        className={`flex-1 py-2 border-y rounded-md ${colorize}`}
-      >
-        {champion.name}
+      <div ref={dragRef} className="flex flex-1">
+        <Card className={`flex-1 ${colorize}`} leftComponent={ChampImage}>
+          {champion.name}
+        </Card>
       </div>
     </div>
   );
