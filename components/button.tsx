@@ -14,7 +14,7 @@ export const Button: React.FC<Props> = ({
   let size = maybeSize || "md";
 
   const classes = classnames(
-    `${className} rounded bg-indigo-600 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`,
+    `bg-indigo-600 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`,
     {
       "text-xs": size === "xs",
       "text-sm": size !== "xs",
@@ -22,7 +22,9 @@ export const Button: React.FC<Props> = ({
       "px-2.5 py-1.5": size === "md",
       "px-3 py-2": size === "lg",
       "px 3.5 py-2.5": size === "xl",
-    }
+      rounded: !className?.includes("rounded"),
+    },
+    className
   );
 
   return (

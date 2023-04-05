@@ -1,25 +1,14 @@
-import { useUser } from "../helpers/use-user";
+import { User } from "../types/users";
 
-export const ProfileImage = () => {
-  const { user, isLoading, isError } = useUser("luke@jedi.com");
+type Props = {
+  user: User;
+};
 
-  if (isLoading) {
-    return (
-      <>
-        <span className="sr-only">Open user menu</span>
-        <img className="h-8 w-8 rounded-full" src="" alt="" />
-      </>
-    );
-  }
-
-  if (isError || !user) {
-    return <div>Error</div>;
-  }
-
+export const ProfileImage: React.FC<Props> = ({ user }) => {
   return (
     <>
       <span className="sr-only">Open user menu</span>
-      <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+      <img className="h-8 w-8 rounded-full" src={user.image} alt="" />
     </>
   );
 };

@@ -1,27 +1,13 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { useUser } from "../helpers/use-user";
-import { useRouter } from "next/router";
 import { User } from "../types/users";
+import { useNavigation } from "../helpers/use-navigation";
 
 type Props = {
   user: User;
 };
 export const Navigation: React.FC<Props> = ({ user }) => {
-  const router = useRouter();
-
-  const navigation = [
-    {
-      name: "Dashboard",
-      href: `/team/${user.team}/dashboard`,
-      current: router.pathname.includes("dashboard"),
-    },
-    {
-      name: "Tags",
-      href: `/team/${user.team}/tags`,
-      current: router.pathname.includes("tags"),
-    },
-  ];
+  const navigation = useNavigation();
 
   return (
     <div className="hidden md:block">

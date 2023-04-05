@@ -1,7 +1,6 @@
 export type User = {
   name: string;
-  team: number;
-  imageUrl: string;
-  teamName: string;
+  team?: string;
+  image: string;
   email: string;
 };

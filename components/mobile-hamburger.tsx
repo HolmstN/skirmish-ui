@@ -1,9 +1,9 @@
 import { Disclosure } from "@headlessui/react";
 import classNames from "classnames";
-import { useUser } from "../helpers/use-user";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { User } from "../types/users";
+import { useNavigation } from "../helpers/use-navigation";
 
 type Nav = {
   name: string;
@@ -16,19 +16,7 @@ type Props = {
   user: User;
 };
 export const MobileHamburger: React.FC<Props> = ({ userNavigation, user }) => {
-  const router = useRouter();
-  const navigation = [
-    {
-      name: "Dashboard",
-      href: `/team/${user.team}/dashboard`,
-      current: router.pathname.includes("dashboard"),
-    },
-    {
-      name: "Tags",
-      href: `/team/${user.team}/tags`,
-      current: router.pathname.includes("tags"),
-    },
-  ];
+  const navigation = useNavigation();
 
   return (
     <Disclosure.Panel className="md:hidden">
@@ -53,16 +41,12 @@ export const MobileHamburger: React.FC<Props> = ({ userNavigation, user }) => {
       <div className="border-t border-indigo-700 pb-3 pt-4">
         <div className="flex items-center px-5">
           <div className="flex-shrink-0">
-            <img
-              className="h-10 w-10 rounded-full"
-              src={user.imageUrl}
-              alt=""
-            />
+            <img className="h-10 w-10 rounded-full" src={user?.image} alt="" />
           </div>
           <div className="ml-3">
-            <div className="text-base font-medium text-white">{user.name}</div>
+            <div className="text-base font-medium text-white">{user?.name}</div>
             <div className="text-sm font-medium text-indigo-300">
-              {user.email}
+              {user?.email}
             </div>
           </div>
           <button

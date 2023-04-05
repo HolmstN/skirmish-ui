@@ -43,7 +43,7 @@ export const Layout: React.FC<Props> = ({ user, children }) => {
                       <Menu as="div" className="relative ml-3">
                         <div>
                           <Menu.Button className="flex max-w-xs items-center rounded-full bg-indigo-600 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600">
-                            <ProfileImage />
+                            <ProfileImage user={user} />
                           </Menu.Button>
                         </div>
                         <Transition

@@ -34,7 +34,7 @@ export const mockPlayer = (name: string): PlayerUi => {
   const roles = Object.fromEntries(
     orderedRoles.map((or) => {
       const champDetails = or[1].champions.map((c, i) => ({
-        name: c,
+        championKey: c,
         preference: i,
       }));
 
