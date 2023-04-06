@@ -1,40 +1,41 @@
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
+import { Role } from "../types/teams";
 
-const people = [
+const teams: { name: string; openRoles: Role[]; imageUrl: string }[] = [
   {
-    name: "Lindsay Walton",
-    role: "Front-end Developer",
+    name: "Urgot Ult Too Long",
+    openRoles: ["top"],
     imageUrl:
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
-    name: "Courtney Henry",
-    role: "Designer",
+    name: "Put A Corki In It",
+    openRoles: ["top", "mid"],
     imageUrl:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
-    name: "Tom Cook",
-    role: "Director of Product",
+    name: "Ban Sett",
+    openRoles: ["top", "jg", "mid"],
     imageUrl:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
-    name: "Whitney Francis",
-    role: "Copywriter",
+    name: "Seven Deadly Lee Sins",
+    openRoles: ["top", "supp"],
     imageUrl:
       "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
-    name: "Leonard Krasner",
-    role: "Senior Designer",
+    name: "Yoné",
+    openRoles: ["top", "adc"],
     imageUrl:
       "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
-    name: "Floyd Miles",
-    role: "Principal Designer",
+    name: "Bard Carry",
+    openRoles: ["jg"],
     imageUrl:
       "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
@@ -119,8 +120,8 @@ export const NoTeam: React.FC = () => {
       <div className="mt-10">
         <h3 className="text-sm font-medium text-gray-500">Find a team</h3>
         <ul role="list" className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {people.map((person, personIdx) => (
-            <li key={personIdx}>
+          {teams.map((team, idx) => (
+            <li key={idx}>
               <button
                 type="button"
                 className="group flex w-full items-center justify-between space-x-3 rounded-full border border-gray-300 p-2 text-left shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -129,16 +130,16 @@ export const NoTeam: React.FC = () => {
                   <span className="block flex-shrink-0">
                     <img
                       className="h-10 w-10 rounded-full"
-                      src={person.imageUrl}
+                      src={team.imageUrl}
                       alt=""
                     />
                   </span>
                   <span className="block min-w-0 flex-1">
                     <span className="block truncate text-sm font-medium text-gray-900">
-                      {person.name}
+                      {team.name}
                     </span>
                     <span className="block truncate text-sm font-medium text-gray-500">
-                      {person.role}
+                      {team.role}
                     </span>
                   </span>
                 </span>
