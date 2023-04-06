@@ -4,6 +4,7 @@ import { BellIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { User } from "../types/users";
 import { useNavigation } from "../helpers/use-navigation";
+import { Team } from "../types/teams";
 
 type Nav = {
   name: string;
@@ -12,11 +13,16 @@ type Nav = {
 };
 
 type Props = {
+  team?: Team;
   userNavigation: Nav[];
   user: User;
 };
-export const MobileHamburger: React.FC<Props> = ({ userNavigation, user }) => {
-  const navigation = useNavigation();
+export const MobileHamburger: React.FC<Props> = ({
+  team,
+  userNavigation,
+  user,
+}) => {
+  const navigation = useNavigation({ team });
 
   return (
     <Disclosure.Panel className="md:hidden">

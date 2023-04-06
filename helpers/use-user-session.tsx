@@ -7,6 +7,5 @@ export const useUserSession = () => {
     name: data?.user?.name || "",
     email: data?.user?.email || "",
     image: data?.user?.image || "",
-    team: data?.user?.team,
   };
 };

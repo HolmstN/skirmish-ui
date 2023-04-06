@@ -1,47 +1,12 @@
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import { Role } from "../types/teams";
+import { Team } from "../types/teams";
 
-const teams: { name: string; openRoles: Role[]; imageUrl: string }[] = [
-  {
-    name: "Urgot Ult Too Long",
-    openRoles: ["top"],
-    imageUrl:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Put A Corki In It",
-    openRoles: ["top", "mid"],
-    imageUrl:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Ban Sett",
-    openRoles: ["top", "jg", "mid"],
-    imageUrl:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Seven Deadly Lee Sins",
-    openRoles: ["top", "supp"],
-    imageUrl:
-      "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Yoné",
-    openRoles: ["top", "adc"],
-    imageUrl:
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Bard Carry",
-    openRoles: ["jg"],
-    imageUrl:
-      "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
+type Props = {
+  teams: Team[];
+};
 
-export const NoTeam: React.FC = () => {
+export const NoTeam: React.FC<Props> = ({ teams }) => {
   const [teamName, setTeamName] = useState<string>("");
 
   const onCreateClick = () => {
@@ -51,6 +16,9 @@ export const NoTeam: React.FC = () => {
         name: teamName,
         players: [],
       }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   };
 
@@ -139,7 +107,12 @@ export const NoTeam: React.FC = () => {
                       {team.name}
                     </span>
                     <span className="block truncate text-sm font-medium text-gray-500">
-                      {team.role}
+                      <div className="flex gap-2">
+                        open roles:
+                        {team.openRoles.map((r) => (
+                          <div>{r}</div>
+                        ))}
+                      </div>
                     </span>
                   </span>
                 </span>

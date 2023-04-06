@@ -1,8 +1,10 @@
 import { useRouter } from "next/router";
-import { useUserSession } from "./use-user-session";
+import { Team } from "../types/teams";
 
-export const useNavigation = () => {
-  const user = useUserSession();
+type Params = {
+  team?: Team;
+};
+export const useNavigation = ({ team }: Params) => {
   const router = useRouter();
 
   const nav = [
@@ -12,10 +14,11 @@ export const useNavigation = () => {
       current: router.pathname.includes("dashboard"),
     },
   ];
-  if (user.team) {
+
+  if (team?.name) {
     nav.push({
       name: "Team Manager",
-      href: `/team/${user.team}/team-manager`,
+      href: `/team/${encodeURIComponent(team.name)}/team-manager`,
       current: router.pathname.includes("team-manager"),
     });
   }

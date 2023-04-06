@@ -1,6 +1,9 @@
 export type Team = {
   id: string;
   name: string;
+  owner: string;
+  imageUrl?: string;
+  openRoles: string[];
   players: PlayerUi[];
 };
 
@@ -67,6 +70,7 @@ export type Champion = {
 
 export type PlayerUi = {
   name: string;
+  email: string;
   roles: {
     [role in Role]?: {
       champions: PlayerChampion[];

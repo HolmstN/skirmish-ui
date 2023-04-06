@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { User } from "../types/users";
 import { useNavigation } from "../helpers/use-navigation";
+import { Team } from "../types/teams";
 
 type Props = {
-  user: User;
+  team?: Team;
 };
-export const Navigation: React.FC<Props> = ({ user }) => {
-  const navigation = useNavigation();
+export const Navigation: React.FC<Props> = ({ team }) => {
+  const navigation = useNavigation({ team });
 
   return (
     <div className="hidden md:block">

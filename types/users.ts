@@ -1,6 +1,8 @@
+import { Team } from "./teams";
+
 export type User = {
   name: string;
-  team?: string;
+  team?: Team;
   image: string;
   email: string;
 };

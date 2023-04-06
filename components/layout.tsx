@@ -6,11 +6,13 @@ import { MobileHamburger } from "./mobile-hamburger";
 import { ProfileImage } from "./profile-image";
 import { Navigation } from "./navigation";
 import { User } from "../types/users";
+import { Team } from "../types/teams";
 
 type Props = {
   user: User;
+  team?: Team;
 };
-export const Layout: React.FC<Props> = ({ user, children }) => {
+export const Layout: React.FC<Props> = ({ team, user, children }) => {
   return (
     <>
       <div className="min-h-full">
@@ -27,7 +29,7 @@ export const Layout: React.FC<Props> = ({ user, children }) => {
                         alt="Your Company"
                       />
                     </div>
-                    <Navigation user={user} />
+                    <Navigation team={team} />
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
