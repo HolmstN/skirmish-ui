@@ -1,7 +1,6 @@
 import classnames from "classnames";
 
 type Props = {
-  text: string;
   color:
     | "gray"
     | "red"
@@ -17,7 +16,7 @@ type Props = {
 };
 
 export const Tag: React.FC<Props> = ({
-  text,
+  children,
   color,
   className: overrideClasses,
   onClick,
@@ -93,32 +92,39 @@ export const Tag: React.FC<Props> = ({
   const { bg, remove } = getColors();
 
   const className = classnames(
-    "inline-flex items-center rounded-full pr-1 px-3 py-0.5 text-sm font-medium",
+    "inline-flex items-center rounded-full px-3 py-0.5 text-sm font-medium",
     overrideClasses,
-    bg
+    bg,
+    { "pr-1": !!onRemove }
   );
 
   return (
     <span className={className} onClick={onClick}>
-      {text}
-      <button
-        type="button"
-        onClick={onRemove}
-        className={classnames(
-          "ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus:text-white focus:outline-none",
-          remove
-        )}
-      >
-        <span className="sr-only">Remove option {text}</span>
-        <svg
-          className="h-2 w-2"
-          stroke="currentColor"
-          fill="none"
-          viewBox="0 0 8 8"
+      {children}
+      {onRemove && (
+        <button
+          type="button"
+          onClick={onRemove}
+          className={classnames(
+            "ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full focus:text-white focus:outline-none",
+            remove
+          )}
         >
-          <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
-        </svg>
-      </button>
+          <span className="sr-only">Remove option {children}</span>
+          <svg
+            className="h-2 w-2"
+            stroke="currentColor"
+            fill="none"
+            viewBox="0 0 8 8"
+          >
+            <path
+              strokeLinecap="round"
+              strokeWidth="1.5"
+              d="M1 1l6 6m0-6L1 7"
+            />
+          </svg>
+        </button>
+      )}
     </span>
   );
 };

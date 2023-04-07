@@ -6,6 +6,7 @@ import { ChampionContext } from "../context/champion-context";
 import { champImageUri } from "../../helpers/champ-image-uri";
 import Button from "../button";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import Tag from "../tag";
 
 type Stat = {
   name: string;
@@ -19,11 +20,13 @@ type Props = {
   player: PlayerUi;
   champion: Champion;
   className?: string;
+  onAdd: (champion: Champion) => void;
 };
 export const PlayerChampData: React.FC<Props> = ({
   player,
   champion,
   className,
+  onAdd,
 }) => {
   // mocking for now
   const stats = [
@@ -51,7 +54,10 @@ export const PlayerChampData: React.FC<Props> = ({
         <h3 className="flex-1 text-base font-semibold leading-6 text-gray-900">
           {champion.name}
         </h3>
-        <PlusCircleIcon className="w-6 h-6 mr-2 text-indigo-700 hover:text-indigo-300" />
+        <PlusCircleIcon
+          onClick={() => onAdd(champion)}
+          className="w-6 h-6 mr-2 text-indigo-700 hover:text-indigo-300"
+        />
       </div>
       <dl className="row-span-2 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden md:grid-cols-3 md:divide-x md:divide-y-0">
         {stats.map((item) => (
@@ -71,7 +77,13 @@ export const PlayerChampData: React.FC<Props> = ({
           </div>
         ))}
       </dl>
-      <div className="mx-2">Tags go here</div>
+      <div className="mx-2 pt-1">
+        {champion.tags.map((t) => (
+          <span className="mx-1">
+            <Tag color={"gray"}>{t}</Tag>
+          </span>
+        ))}
+      </div>
     </div>
   );
 };

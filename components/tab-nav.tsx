@@ -1,11 +1,12 @@
 import { ChangeEvent } from "react";
+import { Role } from "../types/teams";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 export type Tab = {
   name: string;
-  key: string;
+  key: Role;
   current: boolean;
   icon?: any;
 };

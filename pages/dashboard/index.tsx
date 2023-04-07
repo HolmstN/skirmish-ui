@@ -68,17 +68,19 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     _id: t._id.toString(),
   })) as unknown as Team[];
 
-  teams.forEach((t) => {
-    const occupiedRoles = new Set<Role>(t.players.map((p) => p.preferredRole));
+  // teams.forEach((t) => {
+  //   const occupiedRoles = new Set<Role>(
+  //     t.players.map((p) => p.preferredRole || "")
+  //   );
 
-    t.openRoles = Object.values(ROLE).reduce<Role[]>((acc, r) => {
-      if (!Array.from(occupiedRoles).includes(r) && !acc.includes(r)) {
-        acc.push(r);
-      }
+  //   t.openRoles = Object.values(ROLE).reduce<Role[]>((acc, r) => {
+  //     if (!Array.from(occupiedRoles).includes(r) && !acc.includes(r)) {
+  //       acc.push(r);
+  //     }
 
-      return acc;
-    }, []);
-  });
+  //     return acc;
+  //   }, []);
+  // });
 
   return {
     props: {

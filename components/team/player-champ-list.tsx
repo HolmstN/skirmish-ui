@@ -5,7 +5,7 @@ import Card from "../card";
 import classNames from "classnames";
 
 type Props = {
-  champions: PlayerChampion[];
+  champions: string[];
   className?: string;
 };
 
@@ -31,6 +31,32 @@ export const PlayerChampList: React.FC<Props> = ({ champions, className }) => {
       return newCo.map((c, i) => ({ ...c, preference: i }));
     });
   };
+
+  if (champions.length === 0) {
+    return (
+      <div className={classNames("pt-4", className)}>
+        <div className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          <svg
+            className="mx-auto h-12 w-12 text-gray-400"
+            stroke="currentColor"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
+            />
+          </svg>
+
+          <span className="mt-2 block text-sm font-semibold text-gray-900">
+            Add a champion from the right
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={classNames("pt-4", className)}>

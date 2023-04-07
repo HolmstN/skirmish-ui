@@ -4,7 +4,7 @@ export type Team = {
   owner: string;
   imageUrl?: string;
   openRoles: string[];
-  players: PlayerUi[];
+  players: string[] | PlayerUi[]; // emails
 };
 
 export type Role = string;
@@ -71,13 +71,13 @@ export type Champion = {
 export type PlayerUi = {
   name: string;
   email: string;
-  roles: {
+  roles?: {
     [role in Role]?: {
       champions: PlayerChampion[];
       preference: number;
     };
   };
-  preferredRole: Role;
+  preferredRole?: Role;
 };
 
 export type Tag = {

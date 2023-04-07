@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { PlayerUi } from "../../types/teams";
+import { PlayerUi, Team } from "../../types/teams";
 import { Transition } from "@headlessui/react";
 import { PlayerChamps } from "../team/player-champs";
 import classnames from "classnames";
 
 type Props = {
+  team: Team;
   players: PlayerUi[];
 };
-export const TeamPlayers: React.FC<Props> = ({ players }) => {
+export const TeamPlayers: React.FC<Props> = ({ team, players }) => {
   const [selectedPlayer, setSelectedPlayer] = useState<PlayerUi>();
 
   return (
@@ -31,7 +32,7 @@ export const TeamPlayers: React.FC<Props> = ({ players }) => {
           enterTo="translate-x-0 opacity-100"
           leave="opacity-0"
         >
-          <PlayerChamps player={p} />
+          <PlayerChamps team={team} player={p} />
         </Transition>
       ))}
     </>
@@ -63,14 +64,14 @@ const PlayerButton: React.FC<PlayerButtonProps> = ({
         />
       </div>
       <div className="min-w-0 flex-1">
-        <a href="#" className="focus:outline-none">
+        <div className="focus:outline-none">
           <span className="absolute inset-0" aria-hidden="true" />
           <p className="text-sm font-medium text-gray-900">{player.name}</p>
 
           <p className="truncate text-sm text-gray-500">
             {player.preferredRole}
           </p>
-        </a>
+        </div>
       </div>
     </div>
   );

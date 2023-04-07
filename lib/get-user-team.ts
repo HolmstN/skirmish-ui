@@ -1,7 +1,13 @@
 import clientPromise from "./mongo";
 import { Session } from "next-auth";
 
-export const getUserTeam = async (session: Session) => {
+type GetUserTeamOptions = {
+  resolvePlayers?: boolean;
+};
+export const getUserTeam = async (
+  session: Session,
+  options: GetUserTeamOptions = {}
+) => {
   const db = (await clientPromise).db("skirmish");
   const teamsCollection = db.collection("teams");
 
@@ -12,5 +18,18 @@ export const getUserTeam = async (session: Session) => {
     ],
   });
 
-  return { ...userTeam, _id: userTeam?._id.toString() };
+  let players: any[] = userTeam?.players;
+
+  if (options.resolvePlayers) {
+    const users = db.collection("users");
+    const ps = await Promise.all(
+      userTeam?.players.map(
+        async ({ email }: { email: string }) => await users.findOne({ email })
+      )
+    );
+
+    players = ps.map((p) => ({ ...p, _id: p._id.toString() }));
+  }
+
+  return { ...userTeam, _id: userTeam?._id.toString(), players };
 };

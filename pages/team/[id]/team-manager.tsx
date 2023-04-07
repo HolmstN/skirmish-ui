@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { PlayerChamps } from "../../../components/team/player-champs";
 import { Champion, PlayerUi, Team } from "../../../types/teams";
 import Layout, { LayoutMain, LayoutHeader } from "../../../components/layout";
-import classnames from "classnames";
 import { GetServerSideProps } from "next";
-import { Transition } from "@headlessui/react";
 import { ChampionContext } from "../../../components/context/champion-context";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../api/auth/[...nextauth]";
@@ -15,7 +12,7 @@ import { TeamPlayers } from "../../../components/manager/team-players";
 import { NoPlayers } from "../../../components/manager/no-players";
 
 type Props = {
-  team: Team;
+  team: Omit<Team, "players"> & { players: PlayerUi[] };
   champions: { [k: string]: Champion };
 };
 export const TeamManager: React.FC<Props> = ({ team, champions }) => {
@@ -37,7 +34,7 @@ export const TeamManager: React.FC<Props> = ({ team, champions }) => {
 
         <LayoutMain>
           {team.players.length ? (
-            <TeamPlayers players={team.players} />
+            <TeamPlayers team={team} players={team.players} />
           ) : (
             <NoPlayers />
           )}
@@ -58,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     };
   }
 
-  const team = await getUserTeam(session);
+  const team = await getUserTeam(session, { resolvePlayers: true });
 
   const championsRes = await fetch(
     "http://ddragon.leagueoflegends.com/cdn/13.6.1/data/en_US/champion.json"
