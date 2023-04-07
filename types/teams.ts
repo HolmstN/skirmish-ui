@@ -73,7 +73,7 @@ export type PlayerUi = {
   email: string;
   roles?: {
     [role in Role]?: {
-      champions: PlayerChampion[];
+      champions: string[];
       preference: number;
     };
   };

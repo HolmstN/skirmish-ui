@@ -28,7 +28,11 @@ export const getUserTeam = async (
       )
     );
 
-    players = ps.map((p) => ({ ...p, _id: p._id.toString() }));
+    players = players.map((p, i) => ({
+      ...p,
+      ...ps[i],
+      _id: ps[i]._id.toString(),
+    }));
   }
 
   return { ...userTeam, _id: userTeam?._id.toString(), players };

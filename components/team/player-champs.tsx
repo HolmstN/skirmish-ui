@@ -33,7 +33,8 @@ export const PlayerChamps: React.FC<Props> = ({ team, player }) => {
 
   const initializeTabs = () => {
     return defaultTabs.map((t) => {
-      if (t.name.toLowerCase() === player.preferredRole?.toLowerCase()) {
+      // top is our fallback 'preferred'
+      if (t.key === player.preferredRole?.toLowerCase() || t.key === "top") {
         return {
           ...t,
           current: true,
@@ -44,6 +45,7 @@ export const PlayerChamps: React.FC<Props> = ({ team, player }) => {
       return { ...t, current: false };
     });
   };
+
   const [tabs, setTabs] = useState<(Tab & { key: Role })[]>(initializeTabs);
 
   const onTabClick = (role: string) => {
@@ -62,7 +64,7 @@ export const PlayerChamps: React.FC<Props> = ({ team, player }) => {
   };
 
   const selectedRole = tabs.find((t) => t.current);
-  let playerChamps: PlayerChampion[] = [];
+  let playerChamps: string[] = [];
   if (selectedRole && player.roles && player.roles[selectedRole.key]) {
     // @ts-expect-error ts fail
     playerChamps = player.roles[selectedRole.key].champions;
