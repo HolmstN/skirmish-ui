@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { Champion, PlayerUi, Role, Team } from "../../types/teams";
 import { TabNav, Tab } from "../tab-nav";
@@ -6,16 +6,19 @@ import ChampSelect from "../champ-select";
 import { PlayerChampList } from "./player-champ-list";
 import { PlayerChampData } from "./player-champ-data";
 import { ChampionContext } from "../context/champion-context";
+import { fetcher } from "../../helpers/fetcher";
+import useSWR from "swr";
+import { Mastery } from "../../types/riot/mastery";
 
 type Props = {
-  team: Team;
   player: PlayerUi;
 };
 
 type CustomTab = Pick<Tab, "name"> & {
   key: Role;
 };
-export const PlayerChamps: React.FC<Props> = ({ team, player }) => {
+export const PlayerChamps: React.FC<Props> = ({ player }) => {
+  const { data: team, mutate } = useSWR("/api/team", fetcher);
   const defaultTabs: CustomTab[] = [
     { name: "Top", key: "top" },
     { name: "Jungle", key: "jg" },
@@ -57,19 +60,18 @@ export const PlayerChamps: React.FC<Props> = ({ team, player }) => {
   };
 
   const selectedRole = tabs.find((t) => t.current);
-  let playerChamps: string[] = [];
-  if (selectedRole && player.roles && player.roles[selectedRole.key]) {
-    // @ts-expect-error ts fail
-    playerChamps = player.roles[selectedRole.key].champions;
-  }
+  const playerChamps: string[] = useMemo(() => {
+    if (selectedRole && player.roles && player.roles[selectedRole.key]) {
+      // @ts-expect-error ts fail
+      return player.roles[selectedRole.key].champions;
+    }
+    return [];
+  }, [selectedRole?.key, team]);
 
-  const playerTopWrChamps = ["Akali", "Azir", "Ahri"];
-
-  const champions = useContext(ChampionContext);
   const [selectedChamp, setSelectedChamp] = useState<Champion>();
 
-  const onAdd = (champion: Champion) => {
-    fetch("/api/team/players/roles/append-champion", {
+  const onAdd = async (champion: Champion) => {
+    await fetch("/api/team/players/roles/append-champion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,6 +82,47 @@ export const PlayerChamps: React.FC<Props> = ({ team, player }) => {
         role: selectedRole?.key,
       }),
     });
+
+    const pi = team.players.findIndex(
+      (p: { name: string }) => p.name === player.name
+    );
+    const newTeam = { ...team };
+    // @ts-expect-error
+    newTeam.players[pi].roles[selectedRole.key].champions.push(champion.name);
+    mutate({ ...newTeam });
+  };
+
+  const reorder = async (champ: string, to: number) => {
+    const champIndex = playerChamps.findIndex((c) => c === champ);
+
+    // don't do anything
+    if (champIndex === to) {
+      return;
+    }
+
+    const newChampions = playerChamps.filter((c) => c !== champ);
+    newChampions.splice(to, 0, champ);
+
+    await fetch("/api/team/players/roles/reorder-champions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        champions: newChampions,
+        email: player.email,
+        role: selectedRole?.key,
+      }),
+    });
+
+    const pi = team.players.findIndex(
+      (p: { name: string }) => p.name === player.name
+    );
+
+    const newTeam = { ...team };
+    // @ts-expect-error
+    newTeam.players[pi].roles[selectedRole.key].champions = newChampions;
+    mutate({ ...newTeam });
   };
 
   return (
@@ -88,35 +131,109 @@ export const PlayerChamps: React.FC<Props> = ({ team, player }) => {
       <TabNav tabs={tabs} onChange={onTabClick} />
       <div className="flex">
         <div className="w-1/3 pt-2">
-          <PlayerChampList key={selectedRole?.key} champions={playerChamps} />
+          <PlayerChampList reorder={reorder} champions={playerChamps} />
         </div>
-        <div className="pt-2 flex flex-col items-end">
-          <ChampSelect
-            selectedChampion={selectedChamp}
-            onSelect={setSelectedChamp}
-            label="Search Champion"
-          />
-          <div className="mt-2 ml-4">
-            {selectedChamp && (
-              <div className="my-4">
-                <PlayerChampData
-                  onAdd={onAdd}
-                  champion={selectedChamp}
-                  player={player}
-                />
-              </div>
-            )}
-            {playerTopWrChamps.map((ptc) => (
-              <div className="my-4">
-                <PlayerChampData
-                  onAdd={onAdd}
-                  champion={champions[ptc]}
-                  player={player}
-                />
-              </div>
-            ))}
+        <ChampMasteries
+          player={player}
+          selectedChamp={selectedChamp}
+          setSelectedChamp={setSelectedChamp}
+          onAdd={onAdd}
+          playerChamps={playerChamps}
+        />
+      </div>
+    </div>
+  );
+};
+
+type ChampMasteriesProps = {
+  player: PlayerUi;
+  selectedChamp?: Champion;
+  setSelectedChamp: (champion: Champion) => void;
+  onAdd: (champion: Champion) => void;
+  playerChamps: string[];
+};
+const ChampMasteries: React.FC<ChampMasteriesProps> = ({
+  player,
+  selectedChamp,
+  setSelectedChamp,
+  onAdd,
+  playerChamps,
+}) => {
+  const { data: playerChampMasteries, isLoading } = useSWR<Mastery[]>(
+    `/api/player/${player.name}/champion-masteries`,
+    fetcher
+  );
+
+  if (isLoading) {
+    return (
+      <div className="pt-2 flex flex-col items-end">
+        <ChampSelect
+          selectedChampion={selectedChamp}
+          onSelect={setSelectedChamp}
+          label="Search Champion"
+        />
+        Loading
+      </div>
+    );
+  }
+
+  if (
+    playerChampMasteries?.error ||
+    !playerChampMasteries ||
+    !playerChampMasteries.length
+  ) {
+    return (
+      <div className="pt-2 flex flex-col items-end">
+        <ChampSelect
+          selectedChampion={selectedChamp}
+          onSelect={setSelectedChamp}
+          label="Search Champion"
+        />
+        Something went wrong
+      </div>
+    );
+  }
+
+  const champions = useContext(ChampionContext);
+  const playerChampNamesToChampions = playerChamps.map((c) => champions[c]);
+
+  return (
+    <div className="pt-2 flex flex-col items-end">
+      <ChampSelect
+        selectedChampion={selectedChamp}
+        onSelect={setSelectedChamp}
+        label="Search Champion"
+      />
+      <div className="mt-2 ml-4">
+        {playerChampMasteries && selectedChamp && (
+          <div className="my-4">
+            <PlayerChampData
+              onAdd={onAdd}
+              key={selectedChamp.id}
+              mastery={playerChampMasteries.find(
+                (m) => m.championId.toString() === selectedChamp.key
+              )}
+              player={player}
+            />
           </div>
-        </div>
+        )}
+        {playerChampMasteries &&
+          playerChampMasteries.map((m) => {
+            // todo: this seems rough
+            if (
+              playerChampNamesToChampions.find(
+                (pc) => pc.key === m.championId.toString()
+              )
+            ) {
+              return null;
+            }
+
+            return (
+              <div key={m.championId} className="my-4">
+                <PlayerChampData onAdd={onAdd} mastery={m} player={player} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import { champImageUri } from "../../helpers/champ-image-uri";
 import Button from "../button";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import Tag from "../tag";
+import { Mastery } from "../../types/riot/mastery";
 
 type Stat = {
   name: string;
@@ -18,33 +19,43 @@ type Stat = {
 
 type Props = {
   player: PlayerUi;
-  champion: Champion;
+  mastery: Mastery;
   className?: string;
   onAdd: (champion: Champion) => void;
 };
 export const PlayerChampData: React.FC<Props> = ({
   player,
-  champion,
+  mastery,
   className,
   onAdd,
 }) => {
-  // mocking for now
+  const champions = useContext(ChampionContext);
+  const champion = Object.values(champions).find((c) => {
+    return c.key === mastery.championId.toString();
+  });
+
+  if (!champion) {
+    return (
+      <div className="bg-white grid grid-rows-4 divide-y divide-gray-200 shadow border border-gray-200 rounded-lg">
+        <div className="ml-2 row-span-1 flex gap-2 items-center"></div>
+        <dl className="row-span-2 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden md:grid-cols-3 md:divide-x md:divide-y-0">
+          Something went wrong
+        </dl>
+      </div>
+    );
+  }
+
+  const nformat = Intl.NumberFormat("en-us").format;
+  const dformat = Intl.DateTimeFormat("en-us").format;
+
   const stats = [
     {
-      name: "Win Rate",
-      stat: "90%",
-      previousStat: "20%",
-      change: "70%",
-      changeType: "increase",
+      name: "Mastery",
+      stat: `${mastery.championLevel}`,
+      footer: `(${nformat(mastery.championPoints)})`,
     },
-    {
-      name: "KDA",
-      stat: "4.05",
-    },
-    {
-      name: "CS/M",
-      stat: "7.0",
-    },
+    { name: "Last Played On", stat: dformat(mastery.lastPlayTime) },
+    { name: "Win Rate", stat: "This and other stats coming soon" },
   ];
 
   return (
@@ -66,12 +77,16 @@ export const PlayerChampData: React.FC<Props> = ({
             <dd className="mt-1 flex items-baseline justify-between md:block lg:flex">
               <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
                 {item.stat}
-                {item.previousStat && (
+                <div className="ml-2 text-sm font-medium text-gray-500">
+                  {item.footer}
+                </div>
+
+                {/* {item.previousStat && (
                   <span className="ml-2 text-sm font-medium text-gray-500">
                     from {item.previousStat}
                   </span>
                 )}
-                {item.change && <ItemChange stat={item} />}
+                {item.change && <ItemChange stat={item} />} */}
               </div>
             </dd>
           </div>
@@ -79,7 +94,7 @@ export const PlayerChampData: React.FC<Props> = ({
       </dl>
       <div className="mx-2 pt-1">
         {champion.tags.map((t) => (
-          <span className="mx-1">
+          <span key={t} className="mx-1">
             <Tag color={"gray"}>{t}</Tag>
           </span>
         ))}

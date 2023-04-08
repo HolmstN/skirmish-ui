@@ -8,28 +8,15 @@ import { ChampionContext } from "../context/champion-context";
 
 type Props = {
   champions: string[];
+  reorder: (champion: string, i: number) => Promise<void>;
   className?: string;
 };
 
-export const PlayerChampList: React.FC<Props> = ({ champions, className }) => {
-  const [champsOrdered, setChampsOrdered] = useState<string[]>(champions);
-
-  const reorder = (champ: string, to: number) => {
-    setChampsOrdered((co) => {
-      const champIndex = co.findIndex((c) => c === champ);
-
-      // don't do anything
-      if (champIndex === to) {
-        return co;
-      }
-
-      const newCo = co.filter((c) => c !== champ);
-
-      newCo.splice(to, 0, champ);
-      return newCo;
-    });
-  };
-
+export const PlayerChampList: React.FC<Props> = ({
+  champions,
+  reorder,
+  className,
+}) => {
   if (champions.length === 0) {
     return (
       <div className={classNames("pt-4", className)}>
@@ -42,8 +29,8 @@ export const PlayerChampList: React.FC<Props> = ({ champions, className }) => {
             aria-hidden="true"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
             />
           </svg>
@@ -59,7 +46,7 @@ export const PlayerChampList: React.FC<Props> = ({ champions, className }) => {
   return (
     <div className={classNames("pt-4", className)}>
       <div className="text-sm text-gray-500">Drag to Reorder</div>
-      {champsOrdered.map((c, i) => (
+      {champions.map((c, i) => (
         <PlayerChampCardDraggable
           key={c}
           champion={c}
@@ -109,7 +96,7 @@ const PlayerChampCardDraggable: React.FC<ChampProps> = ({
   );
 
   const opacity = isDragging ? "opacity-50" : "opacity-100";
-  const colorize = isOver && canDrop ? "bg-indigo-700" : "";
+  const colorize = isOver && canDrop ? "bg-indigo-700" : "bg-white";
 
   const allChamps = useContext(ChampionContext);
   const champImage = champImageUri(allChamps[champion]);

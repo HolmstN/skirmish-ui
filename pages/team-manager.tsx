@@ -10,45 +10,61 @@ import { getUserTeam } from "../lib/get-user-team";
 import { ImageWithBackup } from "../components/image-with-backup";
 import { TeamPlayers } from "../components/manager/team-players";
 import { NoPlayers } from "../components/manager/no-players";
+import useSWR, { SWRConfig } from "swr";
+import { fetcher } from "../helpers/fetcher";
 
 type Props = {
-  team: Omit<Team, "players"> & { players: PlayerUi[] };
   champions: { [k: string]: Champion };
+  fallback: {
+    "/api/team/[id]": Omit<Team, "players"> & { players: PlayerUi[] };
+  };
 };
-export const TeamManager: React.FC<Props> = ({ team, champions }) => {
-  const user = useUserSession();
+
+const Header: React.FC = () => {
+  const { data: team } = useSWR(`/api/team`, fetcher);
 
   return (
-    <ChampionContext.Provider value={champions}>
-      <Layout team={team} user={user}>
-        <LayoutHeader>
-          <div className="flex items-center gap-4">
-            <ImageWithBackup
-              src={team.imageUrl}
-              className="w-10 h-10 rounded-full"
-              alt="team image"
-            />
-            <h1>{team.name}</h1>
-          </div>
-        </LayoutHeader>
-
-        <LayoutMain>
-          {team.players.length ? (
-            <TeamPlayers team={team} players={team.players} />
-          ) : (
-            <NoPlayers />
-          )}
-        </LayoutMain>
-      </Layout>
-    </ChampionContext.Provider>
+    <div className="flex items-center gap-4">
+      <ImageWithBackup
+        src={team.imageUrl}
+        className="w-10 h-10 rounded-full"
+        alt="team image"
+      />
+      <h1>{team.name}</h1>
+    </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  res,
-  query,
-}) => {
+const Main: React.FC = () => {
+  const { data: team } = useSWR(`/api/team`, fetcher);
+
+  return team.players.length ? (
+    <TeamPlayers team={team} players={team.players} />
+  ) : (
+    <NoPlayers />
+  );
+};
+export const TeamManager: React.FC<Props> = ({ champions, fallback }) => {
+  const user = useUserSession();
+
+  return (
+    <SWRConfig value={{ fallback }}>
+      <ChampionContext.Provider value={champions}>
+        <Layout user={user}>
+          <LayoutHeader>
+            <Header />
+          </LayoutHeader>
+
+          <LayoutMain>
+            <Main />
+          </LayoutMain>
+        </Layout>
+      </ChampionContext.Provider>
+    </SWRConfig>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getServerSession(req, res, authOptions);
   if (!session?.user) {
     return {
@@ -73,8 +89,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       session,
-      team,
       champions,
+      fallback: {
+        "/api/team": team,
+      },
     },
   };
 };
