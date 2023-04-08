@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse>
 ) {
-  const { email, role, champion } = req.body;
+  const { email, role, champions } = req.body;
 
   if (!email) {
     return res
@@ -21,10 +21,9 @@ export default async function handler(
       .send({ message: "role not provided but is required" });
   }
 
-  if (!champion || typeof champion !== "string") {
+  if (!champions || typeof champions !== "object" || !champions.length) {
     return res.status(400).send({
-      message:
-        "champion not provided but is required, or champion was not a string representing champion name",
+      message: "champions must be provided as an array with order guaranteed",
     });
   }
 
@@ -34,9 +33,9 @@ export default async function handler(
   teams.updateOne(
     { "players.email": email },
     {
-      $addToSet: { [`players.$.roles.${role}.champions`]: champion },
+      $set: { [`players.$.roles.${role}.champions`]: champions },
     }
   );
 
-  return res.status(200).send({ message: "success" });
+  return res.status(200).send({ message: "success", champions });
 }

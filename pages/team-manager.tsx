@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Champion, PlayerUi, Team } from "../../../types/teams";
-import Layout, { LayoutMain, LayoutHeader } from "../../../components/layout";
+import { Champion, PlayerUi, Team } from "../types/teams";
+import Layout, { LayoutMain, LayoutHeader } from "../components/layout";
 import { GetServerSideProps } from "next";
-import { ChampionContext } from "../../../components/context/champion-context";
+import { ChampionContext } from "../components/context/champion-context";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../api/auth/[...nextauth]";
-import { useUserSession } from "../../../helpers/use-user-session";
-import { getUserTeam } from "../../../lib/get-user-team";
-import { ImageWithBackup } from "../../../components/image-with-backup";
-import { TeamPlayers } from "../../../components/manager/team-players";
-import { NoPlayers } from "../../../components/manager/no-players";
+import { authOptions } from "./api/auth/[...nextauth]";
+import { useUserSession } from "../helpers/use-user-session";
+import { getUserTeam } from "../lib/get-user-team";
+import { ImageWithBackup } from "../components/image-with-backup";
+import { TeamPlayers } from "../components/manager/team-players";
+import { NoPlayers } from "../components/manager/no-players";
 
 type Props = {
   team: Omit<Team, "players"> & { players: PlayerUi[] };
@@ -44,7 +44,11 @@ export const TeamManager: React.FC<Props> = ({ team, champions }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  query,
+}) => {
   const session = await getServerSession(req, res, authOptions);
   if (!session?.user) {
     return {

@@ -3,13 +3,28 @@ import { PlayerUi, Team } from "../../types/teams";
 import { Transition } from "@headlessui/react";
 import { PlayerChamps } from "../team/player-champs";
 import classnames from "classnames";
+import { useRouter } from "next/router";
 
 type Props = {
   team: Team;
   players: PlayerUi[];
 };
 export const TeamPlayers: React.FC<Props> = ({ team, players }) => {
-  const [selectedPlayer, setSelectedPlayer] = useState<PlayerUi>();
+  const router = useRouter();
+  const { player } = router.query;
+
+  const [selectedPlayer, setSelectedPlayer] = useState<PlayerUi | undefined>(
+    () => {
+      if (player && typeof player === "string") {
+        return players.find((p) => p.name === player);
+      }
+    }
+  );
+
+  const onClickPlayer = (p: PlayerUi) => {
+    setSelectedPlayer(p);
+    router.push({ query: { player: p.name } });
+  };
 
   return (
     <>
@@ -17,7 +32,7 @@ export const TeamPlayers: React.FC<Props> = ({ team, players }) => {
         {players.map((p) => (
           <PlayerButton
             key={p.name}
-            onClick={() => setSelectedPlayer(p)}
+            onClick={() => onClickPlayer(p)}
             selected={selectedPlayer?.name === p.name}
             player={p}
           />

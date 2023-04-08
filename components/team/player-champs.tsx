@@ -1,18 +1,11 @@
 import { useContext, useState } from "react";
 import { StarIcon } from "@heroicons/react/24/solid";
-import {
-  Champion,
-  PlayerChampion,
-  PlayerUi,
-  Role,
-  Team,
-} from "../../types/teams";
+import { Champion, PlayerUi, Role, Team } from "../../types/teams";
 import { TabNav, Tab } from "../tab-nav";
 import ChampSelect from "../champ-select";
 import { PlayerChampList } from "./player-champ-list";
 import { PlayerChampData } from "./player-champ-data";
 import { ChampionContext } from "../context/champion-context";
-import { Mutator } from "../../types/db";
 
 type Props = {
   team: Team;
