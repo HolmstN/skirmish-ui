@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Champion, PlayerUi, Team } from "../types/teams";
 import Layout, { LayoutMain, LayoutHeader } from "../components/layout";
 import { GetServerSideProps } from "next";
@@ -8,10 +7,10 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import { useUserSession } from "../helpers/use-user-session";
 import { getUserTeam } from "../lib/get-user-team";
 import { ImageWithBackup } from "../components/image-with-backup";
-import { TeamPlayers } from "../components/manager/team-players";
-import { NoPlayers } from "../components/manager/no-players";
 import useSWR, { SWRConfig } from "swr";
 import { fetcher } from "../helpers/fetcher";
+import { TournamentWithTeam } from "../components/tournaments/tournament-with-team";
+import { Tournament } from "../types/tournament";
 
 type Props = {
   champions: { [k: string]: Champion };
@@ -20,10 +19,22 @@ type Props = {
   };
 };
 
-const now = new Date();
-const TOURNAMENTS = [
+const now = new Date(1688659932302);
+const TOURNAMENTS: Tournament[] = [
   {
-    date: now.setDate(now.getDate() + 5),
+    title: "Skirmish Monthly",
+    when: {
+      start: new Date(now.setDate(now.getDate() + 5)),
+      end: new Date(now.setDate(now.getDate() + 25)),
+    },
+    divisions: [
+      {
+        tier: 1,
+        standings: {
+          adadwad: { wins: [], losses: [] },
+        },
+      },
+    ],
   },
 ];
 
@@ -45,16 +56,11 @@ const Header: React.FC = () => {
 const Main: React.FC = () => {
   const { data: team } = useSWR(`/api/team`, fetcher);
 
-  return (
-    <div>
-      <div className="font-black text-xl">Upcoming Tournaments</div>
-      <div>
-        {TOURNAMENTS.map((t) => (
-          <div>{t.date}</div>
-        ))}
-      </div>
-    </div>
-  );
+  if (team) {
+    return <TournamentWithTeam team={team} tournaments={TOURNAMENTS} />;
+  }
+
+  return <div>TBD</div>;
 };
 
 export const Tournaments: React.FC<Props> = ({ champions, fallback }) => {

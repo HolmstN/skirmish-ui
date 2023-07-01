@@ -4,6 +4,7 @@ import { mockPlayer } from "../../../helpers/mock-player";
 import { getUserTeam } from "../../../lib/get-user-team";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
+import { Tournament } from "../../../types/tournament";
 
 type ApiResponse =
   | {
@@ -28,5 +29,5 @@ export default async function handler(
   const team = await getUserTeam(session, { resolvePlayers: true });
 
   // @ts-expect-error todo: better type handlings
-  res.status(200).send(team);
+  res.status(200).send({ ...team });
 }

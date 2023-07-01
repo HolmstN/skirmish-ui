@@ -18,6 +18,22 @@ export const getUserTeam = async (
     ],
   });
 
+  const now = new Date();
+
+  const teamTournament = {
+    title: "Skirmish Monthly",
+    when: {
+      start: now.setDate(now.getDate() + 5),
+      end: now.setDate(now.getDate() + 25),
+    },
+    division: {
+      tier: 1,
+      standings: {
+        adadwad: { wins: [], losses: [] },
+      },
+    },
+  };
+
   let players: any[] = userTeam?.players;
 
   if (options.resolvePlayers) {
@@ -35,5 +51,10 @@ export const getUserTeam = async (
     }));
   }
 
-  return { ...userTeam, _id: userTeam?._id.toString(), players };
+  return {
+    ...userTeam,
+    _id: userTeam?._id.toString(),
+    players,
+    tournament: teamTournament,
+  };
 };

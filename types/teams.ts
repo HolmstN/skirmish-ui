@@ -1,3 +1,5 @@
+import { Tournament } from "./tournament";
+
 export type Team = {
   id: string;
   name: string;
@@ -5,6 +7,7 @@ export type Team = {
   imageUrl?: string;
   openRoles: string[];
   players: string[] | PlayerUi[]; // emails
+  tournament?: Tournament;
 };
 
 export type Role = string;
