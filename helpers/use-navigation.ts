@@ -18,8 +18,16 @@ export const useNavigation = ({ team }: Params) => {
   if (team?.name) {
     nav.push({
       name: "Team Manager",
-      href: `/team/${encodeURIComponent(team.name)}/team-manager`,
+      href: `/team-manager`,
       current: router.pathname.includes("team-manager"),
+    });
+  }
+
+  if (team?.name) {
+    nav.push({
+      name: "Tournaments",
+      href: `/tournaments`,
+      current: router.pathname.includes("tournaments"),
     });
   }
 

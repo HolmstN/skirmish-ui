@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
+        console.log("checking for team");
         const db = (await clientPromise).db("skirmish");
         const teams = db.collection("teams");
         const query = { players: user.name };
