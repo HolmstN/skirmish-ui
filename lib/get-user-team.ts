@@ -30,9 +30,24 @@ export const getUserTeam = async (
       tier: 1,
       standings: {
         adadwad: { wins: [], losses: [] },
+        zzz: { wins: [], losses: [] },
       },
     },
   };
+
+  const allDivisionTeams = Object.keys(
+    teamTournament.division.standings
+  ).filter((t) => t !== userTeam.name);
+
+  const myTeamStandings = teamTournament.division.standings[userTeam.name];
+  const { wins, losses } = myTeamStandings;
+  const foughtOpponents = new Set([...wins, ...losses]);
+
+  const remainingOpponents = allDivisionTeams.filter(
+    (t) => !foughtOpponents.has(t)
+  );
+
+  teamTournament.division.remainingOpponents = remainingOpponents;
 
   let players: any[] = userTeam?.players;
 

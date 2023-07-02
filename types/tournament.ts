@@ -17,5 +17,7 @@ export type Bracket = {
 export type TeamTournament = {
   title: string;
   when: { start: Date; end: Date };
-  division: Bracket;
+  division: Bracket & {
+    remainingOpponents: string[];
+  };
 };
