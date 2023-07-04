@@ -76,12 +76,56 @@ const YourSchedule: React.FC<YourScheduleProps> = ({ team }) => {
         </div>
       </div>
 
-      <div>Remaining Opponents</div>
-      <div>
-        {team.tournament.division.remainingOpponents.map((o) => (
-          <div key={o}>{o}</div>
-        ))}
-      </div>
+      <h3 className="pt-4">Division</h3>
+
+      <table className="min-w-full divide-y divide-gray-300">
+        <thead>
+          <tr>
+            <th
+              scope="col"
+              className="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-700 sm:pl-0"
+            >
+              Name
+            </th>
+            <th
+              scope="col"
+              className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-700"
+            >
+              Played
+            </th>
+            <th
+              scope="col"
+              className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-700"
+            >
+              Won
+            </th>
+            <th
+              scope="col"
+              className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-700"
+            >
+              Lost
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 bg-gray-100">
+          {team.tournament.division.remainingOpponents.map((t) => (
+            <tr key={t}>
+              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                {t}
+              </td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                {0}
+              </td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                {0}
+              </td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                {0}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
