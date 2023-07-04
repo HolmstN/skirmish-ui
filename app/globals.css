@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply h-full bg-gray-100
+  }
+  
+  body {
+    @apply h-full
+  }
+
+  h1 {
+    @apply text-4xl font-bold;
+  }
+
+  h2 {
+    @apply text-2xl font-bold;
+  }
+
+  h3 {
+    @apply text-xl font-semibold;
+  }
+
+  div {
+    @apply border-slate-500;
+  }
+
+  a {
+    @apply text-slate-300 hover:text-slate-200;
+  }
+}

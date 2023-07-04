@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H ::",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -16,8 +16,8 @@
     "classnames": "^2.3.2",
     "install": "^0.13.0",
     "mongodb": "^4.15.0",
-    "next": "^13",
-    "next-auth": "^4.21.1",
+    "next": "^13.4",
+    "next-auth": "^4.22.1",
     "npm": "^9.6.3",
     "react": "^18",
     "react-dnd": "^16.0.1",
