@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Link from "next/link";
-import { useNavigation } from "../app/nav/use-navigation";
-import { Team } from "../types/teams";
+import { useNavigation } from "./use-navigation";
+import { Team } from "../../types/teams";
 
 type Props = {
   team?: Team;

@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "./globals.css";
 import { NextAuthProvider, DnDProvider } from "./providers";
 
 export const metadata = {
@@ -12,10 +12,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="h-full">
+      <body className="h-full">
         <NextAuthProvider>
-          <DnDProvider>{children}</DnDProvider>;
+          <DnDProvider>{children}</DnDProvider>
         </NextAuthProvider>
       </body>
     </html>

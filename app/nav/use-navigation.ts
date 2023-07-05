@@ -1,5 +1,7 @@
+"use client";
+
 import { useRouter } from "next/router";
-import { Team } from "../types/teams";
+import { Team } from "../../types/teams";
 
 type Params = {
   team?: Team;

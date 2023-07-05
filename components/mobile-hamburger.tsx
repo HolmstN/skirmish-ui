@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { BellIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import { User } from "../types/users";
-import { useNavigation } from "../helpers/use-navigation";
+import { useNavigation } from "../app/nav/use-navigation";
 import { Team } from "../types/teams";
 
 type Nav = {
