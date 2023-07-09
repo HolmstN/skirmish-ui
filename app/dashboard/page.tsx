@@ -1,12 +1,10 @@
 import { NoTeam } from "./team/no-team";
+import { UnlinkedAccount } from "./team/unlinked-account";
 
 const Teams = () => {
-  return (
-    <div className="pt-2">
-      <h2>Dashboard</h2>
-      <NoTeam />
-    </div>
-  );
+  // return <NoTeam />;
+
+  return <UnlinkedAccount />;
 };
 
 export default Teams;

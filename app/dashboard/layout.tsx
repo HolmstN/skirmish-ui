@@ -19,7 +19,12 @@ const Layout: React.FC = ({ children }) => {
               <UserCircleIcon className="h-8 w-8 mx-2" />
             </div>
           </header>
-          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="pt-2">
+              <h2>Dashboard</h2>
+              {children}
+            </div>
+          </div>
         </main>
       </div>
     </div>
