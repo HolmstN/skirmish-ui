@@ -7,6 +7,7 @@ import {
   SignalIcon,
 } from "@heroicons/react/24/outline";
 import classNames from "classnames";
+import Image from "next/image";
 
 const navigation = [
   { name: "Projects", href: "#", icon: FolderIcon, current: false },
@@ -88,16 +89,29 @@ export const Sidebar = () => {
             </ul>
           </li>
           <li className="flex-1 flex flex-col justify-end">
-            <a
-              href="#"
-              className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-            >
-              <Cog6ToothIcon
-                className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                aria-hidden="true"
-              />
-              Settings
-            </a>
+            <div>
+              <a
+                href="#"
+                className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
+              >
+                <Cog6ToothIcon
+                  className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
+                  aria-hidden="true"
+                />
+                Settings
+              </a>
+              <div className="flex flex-col items-end border-t border-indigo-500 group p-2 text-sm leading-6 font-semibold">
+                <div className="text-xs font-semibold leading-6 text-indigo-200">
+                  Linked Accounts
+                </div>
+                <Image
+                  src="/riot_logo.png"
+                  alt="riot logo"
+                  height="20"
+                  width="20"
+                />
+              </div>
+            </div>
           </li>
         </ul>
       </nav>

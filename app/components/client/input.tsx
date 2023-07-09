@@ -6,7 +6,6 @@ type Props = {
   className?: string;
   includeLabel?: boolean;
   labelClassName?: string;
-  wrapperDivClassName?: string;
   placeholder?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -16,24 +15,21 @@ export const Input: React.FC<Props> = ({
   className,
   includeLabel,
   labelClassName,
-  wrapperDivClassName,
   placeholder,
   onChange,
 }) => {
   const cx = classNames(
-    "block w-full rounded-md border-0 pl-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+    "block w-full rounded-md border-0 pl-2 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
     className
   );
 
   const labelClass = classNames(labelClassName, {
     "sr-only": !includeLabel,
-    "block text-sm font-medium leading-6 text-gray-900": includeLabel,
+    "block text-sm font-medium leading-6 text-gray-700": includeLabel,
   });
 
-  const wrapperCx = classNames(wrapperDivClassName);
-
   return (
-    <div className={wrapperCx}>
+    <>
       <label htmlFor={id} className={labelClass}>
         {label}
       </label>
@@ -60,6 +56,6 @@ export const Input: React.FC<Props> = ({
           onChange={onChange}
         />
       )}
-    </div>
+    </>
   );
 };
