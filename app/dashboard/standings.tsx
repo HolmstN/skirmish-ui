@@ -31,16 +31,16 @@ const divisonalStandings = [
 export const Standings = () => {
   return (
     <div className="w-full">
-      <table className="w-full table-auto border-collapse border border-indigo-500">
+      <table className="w-full table-auto border-collapse border border-sky-500">
         <thead>
-          <tr className="bg-indigo-700 font-medium text-indigo-100">
-            <th className="border border-indigo-600 p-2 pl-4 pb-1 text-left">
+          <tr className="bg-sky-700 font-medium text-sky-100">
+            <th className="border border-sky-600 p-2 pl-4 pb-1 text-left">
               Team
             </th>
-            <th className="border border-indigo-600 p-2 pl-4 pb-1 text-left">
+            <th className="border border-sky-600 p-2 pl-4 pb-1 text-left">
               Points
             </th>
-            <th className="border border-indigo-600 p-2 pl-4 pb-1 text-left">
+            <th className="border border-sky-600 p-2 pl-4 pb-1 text-left">
               Record
             </th>
           </tr>
@@ -49,14 +49,14 @@ export const Standings = () => {
           {divisonalStandings.map((s) => (
             <tr
               key={s.team}
-              className={classNames("text-sm text-indigo-900", {
-                "font-bold bg-indigo-200": !!s.isUserTeam,
-                "bg-indigo-50": !s.isUserTeam,
+              className={classNames("text-sm text-sky-900", {
+                "font-bold bg-sky-200": !!s.isUserTeam,
+                "bg-sky-50": !s.isUserTeam,
               })}
             >
-              <td className="border border-indigo-400 p-2 pl-4">{s.team}</td>
-              <td className="border border-indigo-400 p-2 pl-4">{s.points}</td>
-              <td className="border border-indigo-400 p-2 pl-4">
+              <td className="border border-sky-400 p-2 pl-4">{s.team}</td>
+              <td className="border border-sky-400 p-2 pl-4">{s.points}</td>
+              <td className="border border-sky-400 p-2 pl-4">
                 {s.wins} - {s.losses}
               </td>
             </tr>

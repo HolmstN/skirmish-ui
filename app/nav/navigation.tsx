@@ -18,8 +18,8 @@ export const Navigation: React.FC<Props> = ({ team }) => {
             href={item.href}
             className={classNames(
               item.current
-                ? "bg-indigo-700 text-white"
-                : "text-white hover:bg-indigo-500 hover:bg-opacity-75",
+                ? "bg-sky-700 text-white"
+                : "text-white hover:bg-sky-500 hover:bg-opacity-75",
               "rounded-md px-3 py-2 text-sm font-medium"
             )}
             aria-current={item.current ? "page" : undefined}

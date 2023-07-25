@@ -52,13 +52,7 @@ type PlayerProps = {
 
 const Player: React.FC<PlayerProps> = ({ role, name, onSelect }) => {
   const classes = classNames(
-    "flex items-center gap-2 cursor-pointer rounded-full py-2 px-2",
-    {
-      "border border-2 border-indigo-800 hover:border-indigo-500 bg-indigo-600 hover:bg-indigo-400 text-indigo-200":
-        !!name,
-      "border border-2 border-dashed hover:bg-indigo-200 border-indigo-700 hover:border-indigo-600 text-indigo-600":
-        !name,
-    }
+    "hover:bg-gradient-to-r hover:from-indigo-500 hover:to-sky-500 rounded-md group flex items-center gap-2 cursor-pointer"
   );
 
   const onClick = useCallback(() => onSelect({ role, name }), [role, name]);
@@ -66,43 +60,28 @@ const Player: React.FC<PlayerProps> = ({ role, name, onSelect }) => {
   if (name) {
     return (
       <div className={classes} onClick={onClick}>
-        <div className="font-bold uppercase w-2/12">{role}</div>
-        <div className="">{name}</div>
+        <div className="text-sky-100 bg-gradient-to-r from-indigo-500 to-sky-500 group-hover:from-transparent group-hover:to-transparent rounded-full text-center py-2 font-bold uppercase w-2/12">
+          {role}
+        </div>
+        <div className="group-hover:text-sky-100 group-hover:font-medium">
+          {name}
+        </div>
       </div>
     );
   }
   return (
-    <div className={classes} onClick={onClick}>
-      <div className="font-bold uppercase w-2/12">{role}</div>
-      <div className="">
+    <div
+      className={classNames(
+        classes,
+        "border border-dashed border-2 border-sky-400 hover:border-solid hover:border-fuchsia-400"
+      )}
+      onClick={onClick}
+    >
+      <div className="text-sky-600 bg-white rounded-full text-center py-2 font-bold uppercase w-2/12 group-hover:border-0 group-hover:bg-transparent group-hover:text-sky-100">
+        {role}
+      </div>
+      <div className="text-sky-600 group-hover:text-sky-100">
         <QuestionMarkCircleIcon className="h-6 w-6" />
-      </div>
-    </div>
-  );
-};
-
-type FocusedPlayerProps = {
-  name: string;
-  role: Role;
-};
-
-const FocusedPlayer: React.FC<FocusedPlayerProps> = ({ role, name }) => {
-  if (!name) {
-    return (
-      <div className="flex-auto ml-4">
-        <h3 className="text-indigo-900">Find player: {role}</h3>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex-auto ml-4">
-      <h3 className="text-indigo-900">
-        {name}: {role}
-      </h3>
-      <div className="h-full border rounded border-indigo-800 bg-indigo-100">
-        <h4>Player Champs</h4>
-        <div>Some Champs</div>
       </div>
     </div>
   );
