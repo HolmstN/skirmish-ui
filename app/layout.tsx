@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className="h-full">
+      <body className="h-full text-white dark:text-slate-300">
         <NextAuthProvider>
           <DnDProvider>{children}</DnDProvider>
         </NextAuthProvider>

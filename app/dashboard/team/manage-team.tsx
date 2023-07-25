@@ -52,7 +52,7 @@ type PlayerProps = {
 
 const Player: React.FC<PlayerProps> = ({ role, name, onSelect }) => {
   const classes = classNames(
-    "hover:bg-gradient-to-r hover:from-indigo-500 hover:to-sky-500 rounded-md group flex items-center gap-2 cursor-pointer"
+    "hover:bg-gradient-to-r hover:from-indigo-500 hover:dark:from-indigo-800 hover:to-sky-500 dark:hover:to-sky-800 rounded-md group flex items-center gap-2 cursor-pointer"
   );
 
   const onClick = useCallback(() => onSelect({ role, name }), [role, name]);
@@ -60,10 +60,10 @@ const Player: React.FC<PlayerProps> = ({ role, name, onSelect }) => {
   if (name) {
     return (
       <div className={classes} onClick={onClick}>
-        <div className="text-sky-100 bg-gradient-to-r from-indigo-500 to-sky-500 group-hover:from-transparent group-hover:to-transparent rounded-full text-center py-2 font-bold uppercase w-2/12">
+        <div className="text-sky-100 dark:text-slate-300 bg-gradient-to-r from-indigo-500 dark:from-indigo-800 to-sky-500 dark:to-sky-800 group-hover:from-transparent group-hover:to-transparent rounded-full text-center py-2 font-bold uppercase w-2/12">
           {role}
         </div>
-        <div className="group-hover:text-sky-100 group-hover:font-medium">
+        <div className="group-hover:text-sky-100 group-hover:text-slate-200 group-hover:font-medium">
           {name}
         </div>
       </div>
@@ -73,11 +73,11 @@ const Player: React.FC<PlayerProps> = ({ role, name, onSelect }) => {
     <div
       className={classNames(
         classes,
-        "border border-dashed border-2 border-sky-400 hover:border-solid hover:border-fuchsia-400"
+        "border border-dashed border-2 border-sky-400 dark:border-sky-800 hover:border-solid hover:border-fuchsia-400 dark:hover:border-fuchsia-800"
       )}
       onClick={onClick}
     >
-      <div className="text-sky-600 bg-white rounded-full text-center py-2 font-bold uppercase w-2/12 group-hover:border-0 group-hover:bg-transparent group-hover:text-sky-100">
+      <div className="text-sky-600 bg-transparent rounded-full text-center py-2 font-bold uppercase w-2/12 group-hover:border-0 group-hover:bg-transparent group-hover:text-sky-100">
         {role}
       </div>
       <div className="text-sky-600 group-hover:text-sky-100">

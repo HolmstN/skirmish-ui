@@ -28,35 +28,36 @@ const divisonalStandings = [
   },
 ];
 
+const classes = {
+  th: "border border-sky-600 dark:border-slate-600 p-2 pl-4 pb-1 text-left",
+  td: "border border-sky-400 dark:border-slate-500 p-2 pl-4",
+};
 export const Standings = () => {
   return (
     <div className="w-full">
-      <table className="w-full table-auto border-collapse border border-sky-500">
+      <table className="w-full table-auto border-collapse border border-sky-500 dark:border-slate-500">
         <thead>
-          <tr className="bg-sky-700 font-medium text-sky-100">
-            <th className="border border-sky-600 p-2 pl-4 pb-1 text-left">
-              Team
-            </th>
-            <th className="border border-sky-600 p-2 pl-4 pb-1 text-left">
-              Points
-            </th>
-            <th className="border border-sky-600 p-2 pl-4 pb-1 text-left">
-              Record
-            </th>
+          <tr className="bg-sky-700 dark:bg-gradient-to-r dark:from-indigo-900 dark:to-sky-900 font-medium text-sky-100 dark:text-slate-200">
+            <th className={classes.th}>Team</th>
+            <th className={classes.th}>Points</th>
+            <th className={classes.th}>Record</th>
           </tr>
         </thead>
         <tbody>
           {divisonalStandings.map((s) => (
             <tr
               key={s.team}
-              className={classNames("text-sm text-sky-900", {
-                "font-bold bg-sky-200": !!s.isUserTeam,
-                "bg-sky-50": !s.isUserTeam,
-              })}
+              className={classNames(
+                "text-sm text-sky-900 dark:text-slate-200",
+                {
+                  "font-bold bg-sky-200 dark:bg-indigo-950": !!s.isUserTeam,
+                  "bg-sky-50 dark:bg-transparent": !s.isUserTeam,
+                }
+              )}
             >
-              <td className="border border-sky-400 p-2 pl-4">{s.team}</td>
-              <td className="border border-sky-400 p-2 pl-4">{s.points}</td>
-              <td className="border border-sky-400 p-2 pl-4">
+              <td className={classes.td}>{s.team}</td>
+              <td className={classes.td}>{s.points}</td>
+              <td className={classes.td}>
                 {s.wins} - {s.losses}
               </td>
             </tr>

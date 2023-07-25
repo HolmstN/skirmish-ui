@@ -42,7 +42,7 @@ const tournaments = [
 
 export const Sidebar = () => {
   return (
-    <div className="h-full flex grow flex-col gap-y-5 overflow-y-auto bg-sky-800 px-6 pb-4">
+    <div className="h-full flex grow flex-col gap-y-5 overflow-y-auto bg-sky-800 dark:bg-slate-900 px-6 pb-4 dark:border-r dark:border-slate-800">
       <div className="flex h-16 shrink-0 items-center">
         <img
           className="h-8 w-auto"
@@ -60,16 +60,16 @@ export const Sidebar = () => {
                     href={item.href}
                     className={classNames(
                       item.current
-                        ? "bg-sky-700 text-white"
-                        : "text-sky-200 hover:text-white hover:bg-sky-700",
+                        ? "bg-sky-700 dark:bg-slate-800 text-white"
+                        : "text-sky-200 dark:text-slate-300 hover:text-white hover:bg-sky-700 hover:dark:bg-slate-800",
                       "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                     )}
                   >
                     <item.icon
                       className={classNames(
                         item.current
-                          ? "text-white"
-                          : "text-sky-200 group-hover:text-white",
+                          ? "text-white dark:text-slate-200"
+                          : "text-sky-200 dark:text-slate-300 group-hover:text-white",
                         "h-6 w-6 shrink-0"
                       )}
                       aria-hidden="true"
@@ -81,7 +81,7 @@ export const Sidebar = () => {
             </ul>
           </li>
           <li>
-            <div className="text-xs font-semibold leading-6 text-sky-200">
+            <div className="text-xs font-semibold leading-6 text-sky-200 dark:text-slate-300">
               Your Tournaments
             </div>
             <ul role="list" className="-mx-2 mt-2 space-y-1">
@@ -91,12 +91,12 @@ export const Sidebar = () => {
                     href={tournament.href}
                     className={classNames(
                       tournament.current
-                        ? "bg-sky-700 text-white"
-                        : "text-sky-200 hover:text-white hover:bg-sky-700",
+                        ? "bg-sky-700 dark:bg-slate-800 text-white dark:text-slate-200"
+                        : "text-sky-200 dark:text-slate-300 hover:text-white hover:bg-sky-700 hover:dark:bg-slate-800",
                       "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                     )}
                   >
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-sky-400 bg-sky-700 text-[0.625rem] font-medium text-white">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-sky-400 dark:border-slate-400 bg-sky-700 dark:bg-slate-800 text-[0.625rem] font-medium text-white">
                       {tournament.initial}
                     </span>
                     <span className="truncate">{tournament.name}</span>
@@ -109,10 +109,10 @@ export const Sidebar = () => {
             <div>
               <a
                 href="#"
-                className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-sky-200 hover:bg-sky-700 hover:text-white"
+                className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-sky-200 dark:text-slate-300 hover:bg-sky-700 hover:dark:bg-slate-800 hover:text-white"
               >
                 <Cog6ToothIcon
-                  className="h-6 w-6 shrink-0 text-sky-200 group-hover:text-white"
+                  className="h-6 w-6 shrink-0 text-sky-200 dark:text-slate-300 group-hover:text-white"
                   aria-hidden="true"
                 />
                 Settings

@@ -12,7 +12,7 @@ const Teams = () => {
 
   return (
     <div>
-      <div className="pb-2 text-sky-800 flex">
+      <div className="pb-2 text-sky-800 dark:text-slate-300 flex">
         <h2 className="flex-1">Team Demacia</h2>
         <div className="flex flex-col items-end font-medium">
           <div>Tournament: Skirmish Monthly</div>

@@ -11,12 +11,14 @@ const Layout: React.FC = ({ children }) => {
       </div>
       <div className="lg:pl-60 w-full">
         <main>
-          <header className="bg-white flex items-center border-b border-gray-300">
-            <div className="text-gray-700 flex-1 pl-2">Username</div>
-            <MoonIcon className="h-8 w-8 m-2" />
-            <BellAlertIcon className="h-8 w-8 m-2" />
-            <div className="border-l border-gray-300 pl-1">
-              <UserCircleIcon className="h-8 w-8 mx-2" />
+          <header className="bg-white dark:bg-slate-900 flex items-center border-b border-l border-sky-300 dark:border-slate-800">
+            <div className="text-gray-700 dark:text-slate-300 font-medium flex-1 pl-2">
+              Username
+            </div>
+            <MoonIcon className="h-8 w-8 m-2 dark:text-slate-400" />
+            <BellAlertIcon className="h-8 w-8 m-2 dark:text-slate-400" />
+            <div className="border-l border-gray-300 dark:border-slate-700 pl-1">
+              <UserCircleIcon className="h-8 w-8 mx-2 dark:text-slate-400" />
             </div>
           </header>
           <div className="px-4 sm:px-6 lg:px-8">
