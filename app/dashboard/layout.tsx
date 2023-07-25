@@ -6,10 +6,10 @@ import { UserCircleIcon } from "@heroicons/react/20/solid";
 const Layout: React.FC = ({ children }) => {
   return (
     <div className="flex min-h-full">
-      <div className="lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+      <div className="lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-60 lg:flex-col">
         <Sidebar />
       </div>
-      <div className="lg:pl-72 w-full">
+      <div className="lg:pl-60 w-full">
         <main>
           <header className="bg-white flex items-center border-b border-gray-300">
             <div className="text-gray-700 flex-1 pl-2">Username</div>
@@ -20,10 +20,7 @@ const Layout: React.FC = ({ children }) => {
             </div>
           </header>
           <div className="px-4 sm:px-6 lg:px-8">
-            <div className="pt-2">
-              <h2>Dashboard</h2>
-              {children}
-            </div>
+            <div className="pt-4">{children}</div>
           </div>
         </main>
       </div>

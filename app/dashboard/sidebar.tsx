@@ -1,26 +1,43 @@
 import {
-  ChartBarSquareIcon,
   Cog6ToothIcon,
-  FolderIcon,
   GlobeAltIcon,
-  ServerIcon,
-  SignalIcon,
+  HomeIcon,
+  RocketLaunchIcon,
+  UsersIcon,
 } from "@heroicons/react/24/outline";
 import classNames from "classnames";
-import Image from "next/image";
 
 const navigation = [
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Deployments", href: "#", icon: ServerIcon, current: true },
-  { name: "Activity", href: "#", icon: SignalIcon, current: false },
-  { name: "Domains", href: "#", icon: GlobeAltIcon, current: false },
-  { name: "Usage", href: "#", icon: ChartBarSquareIcon, current: false },
-  { name: "Settings", href: "#", icon: Cog6ToothIcon, current: false },
+  { name: "Home", href: "#", icon: HomeIcon, current: true },
+  { name: "Tournaments", href: "#", icon: GlobeAltIcon, current: false },
+  { name: "Teams", href: "#", icon: RocketLaunchIcon, current: false },
+  { name: "Players", href: "#", icon: UsersIcon, current: false },
 ];
-const teams = [
-  { id: 1, name: "Planetaria", href: "#", initial: "P", current: false },
-  { id: 2, name: "Protocol", href: "#", initial: "P", current: false },
-  { id: 3, name: "Tailwind Labs", href: "#", initial: "T", current: false },
+const tournaments = [
+  {
+    id: 1,
+    name: "Skirmish Tournament",
+    team: "TSM",
+    href: "#",
+    initial: "ST",
+    current: false,
+  },
+  {
+    id: 2,
+    name: "Summoner School Tournament",
+    team: "TSM",
+    href: "#",
+    initial: "SS",
+    current: false,
+  },
+  {
+    id: 3,
+    name: "Clash",
+    team: "CLG",
+    href: "#",
+    initial: "C",
+    current: false,
+  },
 ];
 
 export const Sidebar = () => {
@@ -65,24 +82,24 @@ export const Sidebar = () => {
           </li>
           <li>
             <div className="text-xs font-semibold leading-6 text-indigo-200">
-              Your teams
+              Your Tournaments
             </div>
             <ul role="list" className="-mx-2 mt-2 space-y-1">
-              {teams.map((team) => (
-                <li key={team.name}>
+              {tournaments.map((tournament) => (
+                <li key={tournament.name}>
                   <a
-                    href={team.href}
+                    href={tournament.href}
                     className={classNames(
-                      team.current
+                      tournament.current
                         ? "bg-indigo-700 text-white"
                         : "text-indigo-200 hover:text-white hover:bg-indigo-700",
                       "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                     )}
                   >
                     <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                      {team.initial}
+                      {tournament.initial}
                     </span>
-                    <span className="truncate">{team.name}</span>
+                    <span className="truncate">{tournament.name}</span>
                   </a>
                 </li>
               ))}
@@ -100,17 +117,6 @@ export const Sidebar = () => {
                 />
                 Settings
               </a>
-              <div className="flex flex-col items-end border-t border-indigo-500 group p-2 text-sm leading-6 font-semibold">
-                <div className="text-xs font-semibold leading-6 text-indigo-200">
-                  Linked Accounts
-                </div>
-                <Image
-                  src="/riot_logo.png"
-                  alt="riot logo"
-                  height="20"
-                  width="20"
-                />
-              </div>
             </div>
           </li>
         </ul>

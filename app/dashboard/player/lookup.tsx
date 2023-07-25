@@ -29,31 +29,31 @@ const people = [
 ];
 export const PlayerLookup = () => {
   const [query, setQuery] = useState("");
-  const [selectedPerson, setSelectedPerson] = useState<PlayerUi>();
-  const [options, setOptions] = useState<PlayerUi[]>([]);
+  const [selectedPerson, setSelectedPerson] = useState<(typeof people)[0]>();
+  const [options, setOptions] = useState<(typeof people)[0][]>(people);
 
-  useEffect(() => {
-    const handler = setTimeout(async () => {
-      if (!query.length) {
-        return;
-      }
+  // useEffect(() => {
+  //   const handler = setTimeout(async () => {
+  //     if (!query.length) {
+  //       return;
+  //     }
 
-      const fetched = await fetch("/api/players", {
-        method: "POST",
-        body: JSON.stringify({
-          search: query,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  //     const fetched = await fetch("/api/players", {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         search: query,
+  //       }),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
 
-      setOptions(await fetched.json());
-    }, 300);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [query]);
+  //     setOptions(await fetched.json());
+  //   }, 300);
+  //   return () => {
+  //     clearTimeout(handler);
+  //   };
+  // }, [query]);
 
   return (
     <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
