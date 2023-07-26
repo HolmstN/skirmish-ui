@@ -1,3 +1,5 @@
+"use client";
+
 import classnames from "classnames";
 
 type Props = {
@@ -33,7 +35,7 @@ export const Tag: React.FC<Props> = ({
 
       case "gray":
         return {
-          bg: "bg-gray-100 text-gray-800",
+          bg: "bg-gray-100 text-gray-800 dark:bg-slate-600 dark:text-slate-200",
           remove:
             "text-gray-400 hover:bg-gray-200 hover:text-gray-500 focus:bg-gray-500",
         };

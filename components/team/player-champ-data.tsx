@@ -6,7 +6,7 @@ import { ChampionContext } from "../context/champion-context";
 import { champImageUri } from "../../helpers/champ-image-uri";
 import Button from "../button";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import Tag from "../tag";
+import Tag from "../../app/components/client/tag";
 import { Mastery } from "../../types/riot/mastery";
 
 type Stat = {
