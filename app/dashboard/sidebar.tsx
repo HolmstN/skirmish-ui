@@ -6,6 +6,7 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import classNames from "classnames";
+import { tournaments as mockTournaments } from "../../mock-data/tournaments";
 
 const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: true },
@@ -13,32 +14,8 @@ const navigation = [
   { name: "Teams", href: "#", icon: RocketLaunchIcon, current: false },
   { name: "Players", href: "#", icon: UsersIcon, current: false },
 ];
-const tournaments = [
-  {
-    id: 1,
-    name: "Skirmish Tournament",
-    team: "TSM",
-    href: "#",
-    initial: "ST",
-    current: false,
-  },
-  {
-    id: 2,
-    name: "Summoner School Tournament",
-    team: "TSM",
-    href: "#",
-    initial: "SS",
-    current: false,
-  },
-  {
-    id: 3,
-    name: "Clash",
-    team: "CLG",
-    href: "#",
-    initial: "C",
-    current: false,
-  },
-];
+
+const tournaments = mockTournaments;
 
 export const Sidebar = () => {
   return (
