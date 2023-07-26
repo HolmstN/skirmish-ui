@@ -3,7 +3,7 @@
 import classNames from "classnames";
 import { useCallback, useMemo, useState } from "react";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
-import { Section } from "../section";
+import { Section } from "../../section";
 
 type Role = "top" | "jg" | "mid" | "sup" | "adc";
 const players: { name: string; role: Role }[] = [
