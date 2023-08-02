@@ -1,9 +1,26 @@
 import classNames from "classnames";
-import { tournaments } from "../../mock-data/tournaments";
 import { Section } from "../section";
 import Button from "../../components/button";
+import { getAllTournaments } from "../../server/services/tournaments";
+import { Tournaments } from "../../server/db/schema";
 
-export default function Page() {
+type Tournament = Omit<Tournaments, "start_date" | "end_date"> & {
+  start_date?: number;
+  end_date?: number;
+};
+
+export async function getData() {
+  const tournaments = await getAllTournaments();
+
+  return tournaments.map((t) => ({
+    ...t,
+    start_date: t.start_date?.getTime(),
+    end_date: t.end_date?.getTime(),
+  }));
+}
+
+export default async function Page() {
+  const tournaments = await getData();
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="pt-4">
@@ -25,20 +42,29 @@ export default function Page() {
 }
 
 type TournamentProps = {
-  tournament: (typeof tournaments)[0];
+  tournament: Tournament;
 };
 const Tournament: React.FC<TournamentProps> = ({ tournament }) => {
   const dformat = new Intl.DateTimeFormat("en-US").format;
-  const start = dformat(new Date(tournament.startDate));
-  const end = dformat(new Date(tournament.endDate));
+  const start =
+    tournament.start_date && dformat(new Date(tournament.start_date));
+  const end = tournament.end_date && dformat(new Date(tournament.end_date));
+
+  let dateDisplay;
+  if (start && end) {
+    dateDisplay = `${start} - ${end}`;
+  } else if (start) {
+    dateDisplay = `Starting ${start}`;
+  } else if (end) {
+    dateDisplay = `Ending ${end}`;
+  }
+
   return (
     <div className="h-full flex flex-col text-slate-900 dark:text-slate-200">
       <h3 className="text-sky-800 dark:text-indigo-500 font-bold mb-2 uppercase">
         {tournament.name}
       </h3>
-      <div className="text-sm font-bold mb-2">
-        {start} - {end}
-      </div>
+      <div className="text-sm font-bold mb-2">{dateDisplay}</div>
       <div className="flex-1">
         <p className="text-sm line-clamp-4">{tournament.description}</p>
       </div>

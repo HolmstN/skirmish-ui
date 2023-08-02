@@ -34,7 +34,7 @@ export const ManageTeam: React.FC = () => {
   }, [players]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 pb-2">
       <Player onSelect={setFocusedPlayer} role="top" name={playersByRole.top} />
       <Player onSelect={setFocusedPlayer} role="jg" name={playersByRole.jg} />
       <Player onSelect={setFocusedPlayer} role="mid" name={playersByRole.mid} />

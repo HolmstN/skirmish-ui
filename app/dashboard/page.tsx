@@ -9,7 +9,12 @@ import { UnlinkedAccount } from "./team/unlinked-account";
 const Teams = () => {
   // return <UnlinkedAccount />;
 
-  return <div>Choose Tournament</div>;
+  return (
+    <div>
+      <h3>Choose Tournament</h3>
+      <h3>Your Past Tournaments</h3>
+    </div>
+  );
 };
 
 export default Teams;
