@@ -18,7 +18,7 @@ export async function getData() {
 export const Sidebar = async () => {
   const { value: tournaments, error } = await getData();
   if (error) {
-    return redirect("/");
+    redirect("/");
   }
 
   return (

@@ -3,8 +3,9 @@ import { Sidebar } from "../sidebar";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { ReactNode } from "react";
 
-const Layout: React.FC = async ({ children }) => {
+const Layout: React.FC<{ modal: ReactNode }> = async ({ children, modal }) => {
   const session = await getServerSession(authOptions);
 
   return (
@@ -38,6 +39,7 @@ const Layout: React.FC = async ({ children }) => {
           </div>
         </main>
       </div>
+      {modal}
     </div>
   );
 };

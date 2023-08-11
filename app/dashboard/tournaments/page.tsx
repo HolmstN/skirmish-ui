@@ -1,10 +1,6 @@
-import classNames from "classnames";
 import { Section } from "../../section";
-import Button from "../../components/client/button";
 import { getAllTournaments } from "../../../server/services/tournaments";
 import { Tournaments } from "../../../server/db/schema";
-import { redirect } from "next/navigation";
-import Link from "next/link";
 import { LinkButton } from "../../components/link-button";
 
 type Tournament = Omit<Tournaments, "start_date" | "end_date"> & {
@@ -13,7 +9,7 @@ type Tournament = Omit<Tournaments, "start_date" | "end_date"> & {
 };
 
 export async function getData() {
-  const tournaments = await getAllTournaments();
+  const tournaments = await getAllTournaments({});
 
   return tournaments.map((t) => ({
     ...t,
@@ -25,22 +21,17 @@ export async function getData() {
 export default async function Page() {
   const tournaments = await getData();
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <div className="pt-4">
-        <h2 className="text-sky-800 dark:text-slate-300">Tournaments</h2>
-        <main>
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="pt-4 flex flex-wrap gap-4">
-              {tournaments.map((t) => (
-                <Section className="w-1/3 h-60">
-                  <Tournament tournament={t} />
-                </Section>
-              ))}
-            </div>
-          </div>
-        </main>
+    <main>
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="pt-4 flex flex-wrap gap-4">
+          {tournaments.map((t) => (
+            <Section className="w-1/3 h-60">
+              <Tournament tournament={t} />
+            </Section>
+          ))}
+        </div>
       </div>
-    </div>
+    </main>
   );
 }
 

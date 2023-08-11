@@ -1,5 +1,8 @@
-import { getTournamentById } from "../../../../../server/services/get-tournament-by-id";
-import { JoinTournament } from "../../../../components/join-tournament";
+"use server";
+
+import { JoinTournament } from "../../../../../components/join-tournament";
+import Modal from "../../../../../components/client/modal";
+import { getTournamentById } from "../../../../../../server/services/get-tournament-by-id";
 
 export async function getData({ id }: { id: string }) {
   const res = await getTournamentById({ id });
@@ -19,8 +22,8 @@ export default async function Join({
 }) {
   const tournament = await getData({ id: params.id });
   return (
-    <div className="pt-2 mt-2 border-t border-indigo-600">
+    <Modal title="Join Tournament">
       <JoinTournament name={tournament?.name || ""} />
-    </div>
+    </Modal>
   );
 }
