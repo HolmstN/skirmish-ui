@@ -5,10 +5,14 @@ import { Reducer, useReducer } from "react";
 import { PlayerCoachSelector } from "./join-tournament-form/player-coach-selector";
 import { Input } from "./client/input";
 import { Label } from "./client/label";
+import { PlayerOptions } from "./join-tournament-form/player-options";
 
 type State = {
   joinType: "player" | "coach";
   riotAccount: { region: string; username: string };
+  playerData: {
+    role?: string;
+  };
 };
 
 type Action =
@@ -16,7 +20,9 @@ type Action =
   | {
       type: "edit-riot-account";
       payload: { region?: string; username?: string };
-    };
+    }
+  | { type: "select-player-role"; payload: { role: string } };
+
 const reducer: Reducer<State, Action> = (prevState, action) => {
   switch (action.type) {
     case "edit-join-type": {
@@ -36,6 +42,16 @@ const reducer: Reducer<State, Action> = (prevState, action) => {
       };
     }
 
+    case "select-player-role": {
+      return {
+        ...prevState,
+        playerData: {
+          ...prevState.playerData,
+          role: action.payload.role,
+        },
+      };
+    }
+
     default:
       return prevState;
   }
@@ -44,6 +60,7 @@ const reducer: Reducer<State, Action> = (prevState, action) => {
 const initialState: State = {
   joinType: "player",
   riotAccount: { region: "NA", username: "" },
+  playerData: {},
 };
 
 export const JoinTournament: React.FC<{ name: string }> = ({ name }) => {
@@ -100,6 +117,14 @@ export const JoinTournament: React.FC<{ name: string }> = ({ name }) => {
               </div>
             </div>
           </div>
+          {state.joinType === "player" && (
+            <PlayerOptions
+              role={state.playerData.role}
+              onClickRole={(role) =>
+                dispatch({ type: "select-player-role", payload: { role } })
+              }
+            />
+          )}
         </div>
       </div>
     </div>
