@@ -1,11 +1,17 @@
 import pool from "../db/pool";
-import { TournamentPlayers, Teams, Users, Tournaments } from "../db/schema";
+import {
+  TournamentPlayers,
+  Teams,
+  Users,
+  Tournaments,
+  TeamGamedata,
+} from "../db/schema";
 import { Service } from "./service";
 
 type TeamWithPlayers = Teams & {
   rosteredTournaments: string[];
-  players: (Pick<TournamentPlayers, "gamedata"> &
-    Pick<Users, "id" | "username">)[];
+  players: (Pick<TournamentPlayers, "gamedata"> & Pick<Users, "id" | "name">)[];
+  teamGamedata: { looking_for: { roles: string[] } };
 };
 export const getAllTeams: Service<{}, TeamWithPlayers[]> = async (
   { limit, offset } = { limit: "20" }
@@ -15,11 +21,13 @@ export const getAllTeams: Service<{}, TeamWithPlayers[]> = async (
       t.id as team_id, 
       t.name as team_name,
       t.logo,
-      tp.gamedata,
+      tp.gamedata as player_gamedata,
       u.id as player_id,
-      u.username,
-      tn.name as tournament_name
+      u.name,
+      tn.name as tournament_name,
+      td.gamedata as team_gamedata
     FROM teams t
+    LEFT OUTER JOIN team_gamedata td ON td.team_id = t.id
     LEFT OUTER JOIN tournament_players tp ON t.id = tp.team_id
     LEFT OUTER JOIN tournaments tn ON tn.id = tp.tournament_id
     LEFT OUTER JOIN users u ON tp.player_id = u.id
@@ -33,10 +41,11 @@ export const getAllTeams: Service<{}, TeamWithPlayers[]> = async (
       team_id: Teams["id"];
       team_name: Teams["name"];
       logo: Teams["logo"];
-      gamedata: TournamentPlayers["gamedata"];
+      player_gamedata: TournamentPlayers["gamedata"];
       player_id: Users["id"];
-      username: Users["username"];
+      name: Users["name"];
       tournament_name: Tournaments["name"];
+      team_gamedata: TeamGamedata["gamedata"];
     }[];
 
     const teamsObj = teams_players.reduce((acc, tp) => {
@@ -46,6 +55,7 @@ export const getAllTeams: Service<{}, TeamWithPlayers[]> = async (
           name: tp.team_name,
           logo: tp.logo,
           rosteredTournaments: new Set(),
+          teamGamedata: tp.team_gamedata as any,
           players: [],
         };
       }
@@ -56,14 +66,14 @@ export const getAllTeams: Service<{}, TeamWithPlayers[]> = async (
 
       if (tp.player_id) {
         acc[tp.team_id].players.push({
-          gamedata: tp.gamedata,
+          gamedata: tp.player_gamedata,
           id: tp.player_id,
-          username: tp.username,
+          name: tp.name,
         });
       }
 
       return acc;
-    }, {} as { [k: string]: Omit<TeamWithPlayers, "rosteredTournaments"> & { rosteredTournaments: Set<string> } });
+    }, {} as { [k: string]: Omit<TeamWithPlayers, "rosteredTournaments"> & { rosteredTournaments: Set<string> } & { teamGamedata: TeamGamedata["gamedata"] } });
 
     return Object.values(teamsObj).map((t) => ({
       ...t,

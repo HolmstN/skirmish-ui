@@ -1,8 +1,11 @@
 import classNames from "classnames";
-import { Section } from "../section";
-import Button from "../../components/button";
-import { getAllTournaments } from "../../server/services/tournaments";
-import { Tournaments } from "../../server/db/schema";
+import { Section } from "../../section";
+import Button from "../../components/client/button";
+import { getAllTournaments } from "../../../server/services/tournaments";
+import { Tournaments } from "../../../server/db/schema";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import { LinkButton } from "../../components/link-button";
 
 type Tournament = Omit<Tournaments, "start_date" | "end_date"> & {
   start_date?: number;
@@ -60,7 +63,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament }) => {
   }
 
   return (
-    <div className="h-full flex flex-col text-slate-900 dark:text-slate-200">
+    <>
       <h3 className="text-sky-800 dark:text-indigo-500 font-bold mb-2 uppercase">
         {tournament.name}
       </h3>
@@ -69,8 +72,10 @@ const Tournament: React.FC<TournamentProps> = ({ tournament }) => {
         <p className="text-sm line-clamp-4">{tournament.description}</p>
       </div>
       <div className="pb-4">
-        <Button>Join</Button>
+        <LinkButton href={`/dashboard/tournaments/${tournament.id}/join`}>
+          Join
+        </LinkButton>
       </div>
-    </div>
+    </>
   );
 };

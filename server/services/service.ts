@@ -1,7 +1,1 @@
-export type Service<P, T> = (
-  params?:
-    | {
-        limit?: string;
-        offset?: string;
-      } & P
-) => Promise<T>;
+export type Service<P, T> = (params: P) => Promise<T>;

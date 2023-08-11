@@ -8,23 +8,23 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import classNames from "classnames";
-import { tournaments as mockTournaments } from "../../../mock-data/tournaments";
 import { usePathname } from "next/navigation";
+import { Tournaments } from "../../../server/db/schema";
 
 const navigation = [
   { name: "Home", href: "/dashboard", icon: HomeIcon },
   {
     name: "Tournaments",
-    href: "/tournaments",
+    href: "/dashboard/tournaments",
     icon: GlobeAltIcon,
   },
-  { name: "Teams", href: "/teams", icon: RocketLaunchIcon },
-  { name: "Players", href: "/players", icon: UsersIcon },
+  { name: "Teams", href: "/dashboard/teams", icon: RocketLaunchIcon },
+  { name: "Players", href: "/dashboard/players", icon: UsersIcon },
 ];
 
-const tournaments = mockTournaments;
-
-export const NavLinks = () => {
+export const NavLinks: React.FC<{ tournaments: Tournaments[] }> = ({
+  tournaments,
+}) => {
   return (
     <nav className="flex flex-1 flex-col">
       <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -32,6 +32,7 @@ export const NavLinks = () => {
           <ul role="list" className="-mx-2 space-y-1">
             {navigation.map((item) => (
               <TopLevelNavLink
+                key={item.href}
                 name={item.name}
                 href={item.href}
                 Icon={item.icon}
@@ -48,7 +49,7 @@ export const NavLinks = () => {
               <TournamentNavLink
                 name={tournament.name}
                 href={`/dashboard/tournament/${tournament.id}`}
-                initial={tournament.initial}
+                initial={tournament.initial_name}
               />
             ))}
           </ul>
@@ -84,9 +85,10 @@ const TopLevelNavLink: React.FC<TopLevelNavLinkProps> = ({
   Icon,
 }) => {
   const pathname = usePathname();
-  const isActive = href.includes("dashboard")
-    ? pathname === "/dashboard"
-    : pathname.startsWith(href);
+  const isActive =
+    href === "/dashboard"
+      ? pathname === "/dashboard"
+      : pathname.startsWith(href);
 
   return (
     <li key={name}>
@@ -115,9 +117,9 @@ const TopLevelNavLink: React.FC<TopLevelNavLinkProps> = ({
 };
 
 type TournamentNavLinkProps = {
-  name: string;
+  name: string | null;
   href: string;
-  initial: string;
+  initial: string | null;
 };
 const TournamentNavLink: React.FC<TournamentNavLinkProps> = ({
   name,

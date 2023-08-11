@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import { tournaments } from "../../mock-data/tournaments";
-import { Section } from "../section";
-import { playerGameDataLeague } from "../../mock-data/player-gamedata-league";
-import lolIcon from "../../public/LoL_icon.svg";
+import { tournaments } from "../../../mock-data/tournaments";
+import { Section } from "../../section";
+import { playerGameDataLeague } from "../../../mock-data/player-gamedata-league";
+import lolIcon from "../../../public/LoL_icon.svg";
 import Image from "next/image";
-import { getAllPlayerGamedata } from "../../server/services/player-gamedata";
+import { getAllPlayerGamedata } from "../../../server/services/player-gamedata";
 
 async function getData() {
   const res = await getAllPlayerGamedata();
@@ -27,8 +27,9 @@ export default async function Page() {
                 {initialData.map((p) => (
                   <Player
                     id={p.user_id}
-                    username={p.username}
+                    name={p.name}
                     gamedata={p.gamedata}
+                    image={p.image}
                   />
                 ))}
               </ul>
@@ -42,10 +43,11 @@ export default async function Page() {
 
 type PlayerProps = {
   id: string;
-  username: string;
+  name: string;
+  image: string | null;
   gamedata: any;
 };
-const Player: React.FC<PlayerProps> = ({ id, username, gamedata }) => {
+const Player: React.FC<PlayerProps> = ({ id, name, gamedata, image }) => {
   const topRole = gamedata?.preferredRoles
     ? gamedata?.preferredRoles[0]
     : undefined;
@@ -53,10 +55,16 @@ const Player: React.FC<PlayerProps> = ({ id, username, gamedata }) => {
   return (
     <li key={id} className="flex justify-between gap-x-6 py-5">
       <div className="flex gap-x-4">
-        <Image alt="summoner icon" src={lolIcon} className="w-6 h-6" />
+        <Image
+          alt="summoner icon"
+          src={image || lolIcon}
+          width={6}
+          height={6}
+          className="w-6 h-6 rounded-full"
+        />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-slate-900 dark:text-slate-300">
-            {username}
+            {name}
           </p>
           <p className="mt-1 truncate text-xs leading-5 text-slate-500 dark:text-slate-600">
             {/* {person.email} */}

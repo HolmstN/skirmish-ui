@@ -2,14 +2,14 @@ import pool from "../db/pool";
 import { UserGamedata, Users } from "../db/schema";
 import { Service } from "./service";
 
-type Response = UserGamedata & Pick<Users, "username">;
+type Response = UserGamedata & Users;
 export const getAllPlayerGamedata: Service<{}, Response[]> = async (
   { limit, offset } = { limit: "20" }
 ) => {
   const query = `
     SELECT *
     FROM users u
-    INNER JOIN user_gamedata ud ON u.id = ud.user_id
+    LEFT OUTER JOIN user_gamedata ud ON u.id = ud.user_id
     LIMIT ${limit}
     ${offset ? `OFFSET ${offset}` : ""}
   `;

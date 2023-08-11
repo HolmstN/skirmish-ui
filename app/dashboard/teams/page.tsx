@@ -1,16 +1,16 @@
 import classNames from "classnames";
-import { tournaments } from "../../mock-data/tournaments";
-import { Section } from "../section";
-import Button from "../../components/button";
+import { tournaments } from "../../../mock-data/tournaments";
+import { Section } from "../../section";
+import Button from "../../../components/button";
 import riotLogo from "../../public/riot_logo.png";
 import Image from "next/image";
-import Tag from "../components/client/tag";
-import { roles } from "../../mock-data/roles";
+import Tag from "../../components/client/tag";
+import { roles } from "../../../mock-data/roles";
 import { useMemo } from "react";
-import { teams } from "../../mock-data/teams";
-import { teamPlayersByTeam } from "../../mock-data/team-players";
-import { getAllTeams } from "../../server/services/teams";
-import { TournamentPlayers, Users } from "../../server/db/schema";
+import { teams } from "../../../mock-data/teams";
+import { teamPlayersByTeam } from "../../../mock-data/team-players";
+import { getAllTeams } from "../../../server/services/teams";
+import { TournamentPlayers, Users } from "../../../server/db/schema";
 
 export async function getData() {
   return await getAllTeams();
@@ -26,11 +26,11 @@ export default async function Page() {
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="pt-4 flex flex-wrap gap-4">
               {teams.map((t) => (
-                <Section key={t.id}>
+                <Section className="w-1/4" key={t.id}>
                   <Team
-                    id={t.id}
                     name={t.name}
-                    players={t.players}
+                    logo={t.logo}
+                    teamGamedata={t.teamGamedata}
                     rosteredTournaments={t.rosteredTournaments}
                   />
                 </Section>
@@ -44,16 +44,15 @@ export default async function Page() {
 }
 
 type TeamProps = {
-  id: string;
   name: string;
-  players: (Pick<TournamentPlayers, "gamedata"> &
-    Pick<Users, "id" | "username">)[];
+  logo: string | null;
+  teamGamedata: { looking_for: { roles: string[] } };
   rosteredTournaments: string[];
 };
 const Team: React.FC<TeamProps> = ({
-  id,
   name,
-  players,
+  logo,
+  teamGamedata,
   rosteredTournaments,
 }) => {
   return (
@@ -63,24 +62,25 @@ const Team: React.FC<TeamProps> = ({
           {name}
         </h3>
         <div className="pl-2">
-          <Image
-            className="h-6 w-6 flex-none rounded-full bg-gray-50"
-            src={riotLogo}
-            alt="team logo"
-            placeholder="blur"
-          />
+          {logo && (
+            <Image
+              className="w-6 h-6 flex-none rounded-full bg-gray-50"
+              src={logo}
+              width={300}
+              height={300}
+              alt="team logo"
+            />
+          )}
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="pb-2">
-          <RosteredTournaments rosteredTournaments={rosteredTournaments} />
-        </div>
+        <RosteredTournaments rosteredTournaments={rosteredTournaments} />
 
         <div className="flex gap-2 mt-1 pb-2">
-          {roles.map((r) => (
-            <div key={r.id}>
+          {teamGamedata?.looking_for?.roles?.map((r) => (
+            <div key={r}>
               <Tag className="text-xs" color="gray">
-                No {r.id.toUpperCase()}
+                LF-{r.toUpperCase()}
               </Tag>
             </div>
           ))}
@@ -96,21 +96,21 @@ type RTParams = {
 const RosteredTournaments: React.FC<RTParams> = ({ rosteredTournaments }) => {
   if (!rosteredTournaments.length) {
     return (
-      <>
+      <div className="pb-2 text-slate-900 dark:text-slate-300">
         <h4 className="font-semibold">Rostered Tournaments</h4>
         <div className="text-sm">None</div>
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="pb-2 text-slate-900 dark:text-slate-300">
       <h4 className="font-semibold">Rostered Tournaments</h4>
       <ul className="text-sm">
         {rosteredTournaments.map((rt) => (
           <li key={rt}>{rt}</li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };
