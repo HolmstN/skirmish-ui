@@ -49,7 +49,6 @@ export const PostgresAdapter = (client: Pool, options = {}): DefaultAdapter => {
       }
     },
     async getUserByAccount({ providerAccountId, provider }) {
-      console.log(chalk.blue("adapter getUserByAccount"));
       try {
         const sql = `
             select u.* from users u join accounts a on u.id = a.user_id 

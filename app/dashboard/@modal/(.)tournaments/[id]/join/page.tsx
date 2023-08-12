@@ -23,7 +23,7 @@ export default async function Join({
   const tournament = await getData({ id: params.id });
   return (
     <Modal title="Join Tournament">
-      <JoinTournament name={tournament?.name || ""} />
+      <JoinTournament id={params.id} name={tournament?.name || ""} />
     </Modal>
   );
 }

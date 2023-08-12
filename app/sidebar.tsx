@@ -2,24 +2,24 @@ import { getServerSession } from "next-auth/next";
 import { getPlayerTournaments } from "../server/services/player-tournaments";
 import { NavLinks } from "./components/client/nav-links";
 import { authOptions } from "./api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
 
 export async function getData() {
   const session = await getServerSession(authOptions);
   if (!session?.user.id) {
-    return { value: [], error: "Must be logged in" };
+    return [];
   }
 
-  const value = await getPlayerTournaments({ id: session?.user.id });
+  const { value, error } = await getPlayerTournaments({ id: session?.user.id });
 
-  return { value, error: null };
+  if (error || !value) {
+    return [];
+  }
+
+  return value;
 }
 
 export const Sidebar = async () => {
-  const { value: tournaments, error } = await getData();
-  if (error) {
-    redirect("/");
-  }
+  const tournaments = await getData();
 
   return (
     <div className="h-full flex grow flex-col gap-y-5 overflow-y-auto bg-sky-800 dark:bg-slate-900 px-6 pb-4 dark:border-r dark:border-slate-800">

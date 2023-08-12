@@ -15,9 +15,9 @@ export const getAllTournaments: Service<{}, Tournaments[]> = async ({
 
   try {
     const res = await pool.query(query);
-    return res.rows;
+    return { value: res.rows, error: null };
   } catch (e) {
     console.error(e);
-    return [];
+    return { value: [], error: null };
   }
 };

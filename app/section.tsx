@@ -7,7 +7,7 @@ type Props = {
 };
 export const Section: React.FC<Props> = ({ className, header, children }) => {
   const classes = classNames(
-    "shadow rounded-lg bg-white dark:bg-slate-900 px-4 pt-4 dark:border dark:border-slate-800",
+    "shadow rounded-lg bg-sky-100 dark:bg-slate-900 px-4 pt-4 border border-sky-200 dark:border-slate-800",
     className
   );
   return (

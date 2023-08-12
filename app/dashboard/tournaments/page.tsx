@@ -2,6 +2,9 @@ import { Section } from "../../section";
 import { getAllTournaments } from "../../../server/services/tournaments";
 import { Tournaments } from "../../../server/db/schema";
 import { LinkButton } from "../../components/link-button";
+import { getPlayerTournaments } from "../../../server/services/player-tournaments";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
 
 type Tournament = Omit<Tournaments, "start_date" | "end_date"> & {
   start_date?: number;
@@ -9,17 +12,39 @@ type Tournament = Omit<Tournaments, "start_date" | "end_date"> & {
 };
 
 export async function getData() {
-  const tournaments = await getAllTournaments({});
+  try {
+    const session = await getServerSession(authOptions);
+    const [tournaments, myTournaments] = await Promise.all([
+      getAllTournaments({}),
+      getPlayerTournaments({ id: session?.user.id || "" }),
+    ]);
 
-  return tournaments.map((t) => ({
-    ...t,
-    start_date: t.start_date?.getTime(),
-    end_date: t.end_date?.getTime(),
-  }));
+    if (tournaments.error) {
+      throw new Error("Error fetching tournaments");
+    }
+
+    if (myTournaments.error) {
+      throw new Error("Error fetching tournaments");
+    }
+
+    const userTournamentIds = new Set<number>();
+    myTournaments.value?.forEach((t) => userTournamentIds.add(t.id));
+
+    // @ts-expect-error lies
+    return tournaments.value.map((t) => ({
+      ...t,
+      start_date: t.start_date?.getTime(),
+      end_date: t.end_date?.getTime(),
+      userInTournament: userTournamentIds.has(t.id),
+    }));
+  } catch (e) {
+    return [];
+  }
 }
 
 export default async function Page() {
   const tournaments = await getData();
+
   return (
     <main>
       <div className="px-4 sm:px-6 lg:px-8">
@@ -36,7 +61,7 @@ export default async function Page() {
 }
 
 type TournamentProps = {
-  tournament: Tournament;
+  tournament: Tournament & { userInTournament: boolean };
 };
 const Tournament: React.FC<TournamentProps> = ({ tournament }) => {
   const dformat = new Intl.DateTimeFormat("en-US").format;
@@ -54,7 +79,7 @@ const Tournament: React.FC<TournamentProps> = ({ tournament }) => {
   }
 
   return (
-    <>
+    <div className="flex flex-col h-full">
       <h3 className="text-sky-800 dark:text-indigo-500 font-bold mb-2 uppercase">
         {tournament.name}
       </h3>
@@ -63,10 +88,16 @@ const Tournament: React.FC<TournamentProps> = ({ tournament }) => {
         <p className="text-sm line-clamp-4">{tournament.description}</p>
       </div>
       <div className="pb-4">
-        <LinkButton href={`/dashboard/tournaments/${tournament.id}/join`}>
-          Join
-        </LinkButton>
+        {!tournament.userInTournament && (
+          <LinkButton
+            className="w-1/3"
+            href={`/dashboard/tournaments/${tournament.id}/join`}
+          >
+            Join
+          </LinkButton>
+        )}
+        {tournament.userInTournament && <p>Already joined</p>}
       </div>
-    </>
+    </div>
   );
 };

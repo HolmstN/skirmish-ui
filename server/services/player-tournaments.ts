@@ -1,11 +1,6 @@
 import chalk from "chalk";
 import pool from "../db/pool";
-import {
-  TournamentPlayers,
-  Tournaments,
-  UserGamedata,
-  Users,
-} from "../db/schema";
+import { TournamentPlayers, Tournaments } from "../db/schema";
 import { Service } from "./service";
 
 type PlayerTournament = TournamentPlayers["gamedata"] & Tournaments;
@@ -24,10 +19,10 @@ export const getPlayerTournaments: Service<
 
   try {
     const res = await pool.query(query, [id]);
-    return res.rows as PlayerTournament[];
+    return { value: res.rows as PlayerTournament[], error: null };
   } catch (e) {
     console.error(e);
     console.log(chalk.red(e));
-    return [];
+    return { value: null, error: "Could not fetch Player Tournaments" };
   }
 };

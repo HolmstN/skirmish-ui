@@ -4,9 +4,15 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { ReactNode } from "react";
+import UserQuickSettings from "./components/user-quick-settings";
+import { redirect } from "next/navigation";
 
 const Layout: React.FC<{ modal: ReactNode }> = async ({ children, modal }) => {
   const session = await getServerSession(authOptions);
+
+  if (!session?.user) {
+    redirect("/");
+  }
 
   return (
     <div className="flex min-h-full">
@@ -19,18 +25,8 @@ const Layout: React.FC<{ modal: ReactNode }> = async ({ children, modal }) => {
             {session?.user?.name}
           </div>
           <BellAlertIcon className="h-8 w-8 m-2 dark:text-slate-400" />
-          <div className="border-l border-gray-300 dark:border-slate-700 pl-1">
-            {session?.user?.image ? (
-              <Image
-                src={session.user.image}
-                height={200}
-                width={200}
-                alt="user image"
-                className="w-6 h-6 rounded-full"
-              />
-            ) : (
-              <UserCircleIcon className="h-8 w-8 mx-2 dark:text-slate-400" />
-            )}
+          <div className="border-l border-gray-300 dark:border-slate-700 pl-2">
+            <UserQuickSettings userImage={session?.user.image} />
           </div>
         </header>
         <main>

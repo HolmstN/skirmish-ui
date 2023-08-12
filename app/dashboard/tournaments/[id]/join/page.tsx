@@ -20,7 +20,7 @@ export default async function Join({
   const tournament = await getData({ id: params.id });
   return (
     <div className="pt-2 mt-2 border-t border-indigo-600">
-      <JoinTournament name={tournament?.name || ""} />
+      <JoinTournament id={params.id} name={tournament?.name || ""} />
     </div>
   );
 }

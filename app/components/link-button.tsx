@@ -15,7 +15,7 @@ export const LinkButton: React.FC<Props> = ({
   let size = maybeSize || "md";
 
   const classes = classnames(
-    `bg-sky-600 font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600`,
+    `bg-sky-600 dark:bg-indigo-600 dark:hover:bg-amber-700 font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600`,
     {
       "text-xs": size === "xs",
       "text-sm": size !== "xs",
